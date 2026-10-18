@@ -73,7 +73,11 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     grup: '<path d="M4 6h16M4 12h10M4 18h6"/>',
     ev: '<path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M12 8v6M9 11h6"/>',
     paylas: '<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/>',
-    ok: '<path d="M5 12h14M13 6l6 6-6 6"/>'
+    ok: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    ileri: '<path d="M9 6l6 6-6 6"/>',
+    kisiler: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+    brans: '<path d="M6 3v6a6 6 0 0 0 12 0V3"/><path d="M12 15v3a3 3 0 0 0 6 0v-1"/><circle cx="18" cy="15" r="2"/>',
+    harita: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>'
   };
   function ikon(ad) {
     var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -173,101 +177,164 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     bildirimSaat = setTimeout(function () { b.classList.remove('acik'); }, 2200);
   }
 
-  // ---------------------------------------------------------------- Gezinme (Android geri tuşu dahil)
-  // Geçmiş: Apps Script'te google.script.history, GitHub Pages'te tarayıcının kendi geçmişi
+  // ---------------------------------------------------------------- Gezinme (sayfa yığını, geri tuşu)
+  // Sayfalar: ozet (ana sayfa), liste (mezunlar), kategori (şehirler/branşlar/hastaneler). Her geçiş geçmişe
+  // eklenir; üst çubuktaki ok ve telefonun geri tuşu bir önceki sayfaya (filtreleriyle birlikte) döner.
+  // Apps Script'te google.script.history, GitHub Pages'te tarayıcının kendi geçmişi kullanılır.
   var GS = (window.google && google.script && google.script.history) ? google.script.history : null;
-  var GECMIS = GS ? {
-    push: function (st) { GS.push(st, {}); },
-    replace: function (st) { GS.replace(st, {}); },
-    dinle: function (f) { GS.setChangeHandler(function (e) { f((e && e.state) || {}); }); }
-  } : (window.history && history.pushState ? {
-    push: function (st) { history.pushState(st, ''); },
-    replace: function (st) { history.replaceState(st, ''); },
-    dinle: function (f) { window.addEventListener('popstate', function (e) { f(e.state || {}); }); }
-  } : null);
-  var gorunum = 'ozet';
+  var WEB = !GS && !!(window.history && history.pushState);
+  var gorunum = 'ozet', kategori = '', yigin = [];
+  var KATEGORI = {
+    sehir: { baslik: 'Şehirler', birim: 'şehir', sutun: 1, grup: 'kurum', ikon: 'sehir' },
+    brans: { baslik: 'Branşlar', birim: 'branş', sutun: 3, grup: 'sehir', ikon: 'brans' },
+    kurum: { baslik: 'Hastaneler / kurumlar', birim: 'kurum', sutun: 2, grup: '', ikon: 'kurum' }
+  };
 
-  function gorunumAc(ad, gecmisten) {
-    if (ad === gorunum && !gecmisten) return;
-    gorunum = ad;
-    $('gOzet').hidden = ad !== 'ozet';
-    $('gListe').hidden = ad !== 'liste';
-    $('sOzet').setAttribute('aria-selected', ad === 'ozet');
-    $('sListe').setAttribute('aria-selected', ad === 'liste');
-    if (ad === 'liste') listeCiz();
+  function gecmisEkle(st) { if (GS) GS.push(st, {}); else if (WEB) history.pushState(st, ''); }
+  function gecmisDegistir(st) { if (GS) GS.replace(st, {}); else if (WEB) history.replaceState(st, ''); }
+  function kopya(d) { var k = {}; for (var a in d) k[a] = d[a]; return k; }
+  function simdiki() { return { g: gorunum, k: kategori, d: kopya(durum) }; }
+
+  function goster(st) {
+    gorunum = st.g || 'ozet';
+    kategori = st.k || '';
+    if (st.d) { durum = kopya(st.d); $('ara').value = durum.ara || ''; }
+    $('gOzet').hidden = gorunum !== 'ozet';
+    $('gListe').hidden = gorunum !== 'liste';
+    $('gKategori').hidden = gorunum !== 'kategori';
+    $('sOzet').setAttribute('aria-selected', gorunum === 'ozet');
+    $('sListe').setAttribute('aria-selected', gorunum === 'liste');
+    $('geri').hidden = gorunum === 'ozet';
+    document.body.classList.toggle('alt-sayfa', gorunum !== 'ozet');
+    if (gorunum === 'liste') listeCiz();
+    else if (gorunum === 'kategori') kategoriCiz();
+    ustYaz();
     window.scrollTo(0, 0);
-    if (!gecmisten && GECMIS) GECMIS.push({ g: ad });
-  }
-  if (GECMIS) {
-    GECMIS.dinle(function (st) {
-      if (!st.p) pencereKapat(true);
-      if ((st.g || 'ozet') !== gorunum) gorunumAc(st.g || 'ozet', true);
-    });
   }
 
-  /** Özet'ten listeye filtreyle geçiş */
+  function ustYaz() {
+    var b = 'Mezun Arama', a = 'Cerrahpaşa Tıp Fakültesi · 199. Dönem';
+    if (gorunum === 'liste') { b = 'Mezunlar'; a = SATIR.length + ' kişi · ada, şehre, branşa göre ara'; }
+    if (gorunum === 'kategori') {
+      var K = KATEGORI[kategori];
+      b = K.baslik; a = sayim(K.sutun, SATIR).length + ' ' + K.birim + ' · en kalabalıktan aza';
+    }
+    $('ustBaslik').textContent = b;
+    $('ustAlt').textContent = a;
+  }
+
+  /** Yeni sayfaya geç (geçmişe ekler). */
+  function git(st) {
+    if (gorunum === 'liste' && st.g === 'liste' && !st.d) return;
+    yigin.push(simdiki());
+    goster(st);
+    gecmisEkle(simdiki());
+  }
+  /** Bir önceki sayfaya dön. */
+  function geri() {
+    if (!yigin.length) { if (gorunum !== 'ozet') { goster({ g: 'ozet' }); gecmisDegistir(simdiki()); } return; }
+    if (WEB) { history.back(); return; }  // popstate → geriGeldi
+    goster(yigin.pop());
+    gecmisDegistir(simdiki());
+  }
+  function geriGeldi(st) {
+    if (yoksay) { yoksay = false; return; }
+    if (pencereAcik) { pencereKapat(true); return; }  // geri tuşu önce açık pencereyi kapatır
+    if (yigin.length) yigin.pop();
+    goster(st.g ? st : { g: 'ozet' });
+  }
+  if (GS) GS.setChangeHandler(function (e) { geriGeldi((e && e.state) || {}); });
+  else if (WEB) window.addEventListener('popstate', function (e) { geriGeldi(e.state || {}); });
+
+  function anaSayfa() {
+    if (gorunum === 'ozet') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    git({ g: 'ozet' });
+  }
+
+  /** Filtreli mezun listesine geç */
   function listeyeGit(ayar) {
     ayar = ayar || {};
-    durum.sehir = ayar.sehir || ''; durum.kurum = ayar.kurum || ''; durum.brans = ayar.brans || '';
-    durum.ara = ayar.ara || ''; durum.grup = ayar.grup || '';
-    $('ara').value = durum.ara;
-    if (gorunum === 'liste') listeCiz();
-    gorunumAc('liste');
-    if (ayar.odak) setTimeout(function () { $('ara').focus(); }, 50);
+    var d = { sehir: ayar.sehir || '', kurum: ayar.kurum || '', brans: ayar.brans || '', ara: ayar.ara || '',
+              grup: ayar.grup || '' };
+    git({ g: 'liste', d: d });
+    if (ayar.odak) setTimeout(function () { $('ara').focus(); }, 60);
   }
+  function kategoriyeGit(k) { git({ g: 'kategori', k: k, d: kopya(durum) }); }
 
-  // ---------------------------------------------------------------- Özet ekranı
-  function bolum(baslik, sag) {
+  // ---------------------------------------------------------------- Ana sayfa (özet)
+  function bolum(baslik, ikonAd, sag) {
     var b = yap('section', 'bolum');
-    var h = yap('h2', null, baslik);
+    var h = yap('h2');
+    var r = yap('span', 'bolum-ikon');
+    r.appendChild(ikon(ikonAd));
+    h.appendChild(r);
+    h.appendChild(yap('span', 'bolum-ad', baslik));
     if (sag) h.appendChild(sag);
     b.appendChild(h);
     return b;
   }
 
-  function cubuklar(sutun, adet, ad) {
-    var liste = sayim(sutun, SATIR), en = liste.length ? liste[0][1] : 1;
+  function siraliSatir(s, i, en, tikla) {
+    var c = dugme('cubuk', null, tikla);
+    c.setAttribute('aria-label', s[0] + ': ' + s[1] + ' kişi');
+    c.appendChild(yap('span', 'sira' + (i < 3 ? ' s' + (i + 1) : ''), i + 1));
+    c.appendChild(yap('span', 'ad', s[0]));
+    c.appendChild(yap('span', 'n', s[1]));
+    var iz = yap('span', 'iz'), dol = yap('span');
+    dol.style.width = Math.max(3, Math.round(100 * s[1] / en)) + '%';
+    iz.appendChild(dol);
+    c.appendChild(iz);
+    c.appendChild(ikon('ileri'));
+    return c;
+  }
+
+  function enCoklar(k, adet) {
+    var K = KATEGORI[k], liste = sayim(K.sutun, SATIR), en = liste.length ? liste[0][1] : 1;
     var kap = yap('div', 'kutu cubuklar');
-    liste.slice(0, adet).forEach(function (s) {
-      var c = dugme('cubuk', null, function () {
-        var a = {}; a[ad] = s[0]; listeyeGit(a);
-      });
-      c.setAttribute('aria-label', s[0] + ': ' + s[1] + ' kişi');
-      c.appendChild(yap('span', 'ad', s[0]));
-      c.appendChild(yap('span', 'n', s[1]));
-      var iz = yap('span', 'iz'), dol = yap('span');
-      dol.style.width = Math.max(4, Math.round(100 * s[1] / en)) + '%';
-      iz.appendChild(dol);
-      c.appendChild(iz);
-      kap.appendChild(c);
+    liste.slice(0, adet).forEach(function (s, i) {
+      kap.appendChild(siraliSatir(s, i, en, function () {
+        var a = { grup: K.grup }; a[k] = s[0]; listeyeGit(a);
+      }));
     });
-    return { kap: kap, toplam: liste.length };
+    if (liste.length > adet) {
+      var t = dugme('tumu', null, function () { kategoriyeGit(k); });
+      t.appendChild(yap('span', null, 'Tüm ' + K.baslik.toLocaleLowerCase('tr').split(' /')[0] + ' (' + liste.length + ')'));
+      t.appendChild(ikon('ileri'));
+      kap.appendChild(t);
+    }
+    return kap;
   }
 
   function ozetCiz() {
     var o = $('gOzet');
     o.textContent = '';
 
-    // Sayılar
+    // Kahraman alanı: bordo zemin, karşılama, arama, sayılar (zemine taşan kartlar)
+    var kh = yap('section', 'kahraman');
+    kh.appendChild(yap('p', 'selam', 'Hoş geldin 👋'));
+    kh.appendChild(yap('h2', null, '199. Dönem nerede, tek bakışta'));
+    var h = dugme('hizli', null, function () { listeyeGit({ odak: true }); });
+    h.appendChild(ikon('ara'));
+    h.appendChild(document.createTextNode('Ad, hastane, şehir ya da branş ara'));
+    kh.appendChild(h);
+    o.appendChild(kh);
+
     var sayilar = yap('div', 'sayilar');
-    [[SATIR.length, 'mezun'], [sayim(1, SATIR).length, 'şehir'], [sayim(2, SATIR).length, 'kurum'],
-     [sayim(3, SATIR).length, 'branş']].forEach(function (s) {
-      var d = yap('div', 'sayi');
+    [[SATIR.length, 'mezun', 'kisiler', function () { listeyeGit({}); }],
+     [sayim(1, SATIR).length, 'şehir', 'sehir', function () { kategoriyeGit('sehir'); }],
+     [sayim(2, SATIR).length, 'kurum', 'kurum', function () { kategoriyeGit('kurum'); }],
+     [sayim(3, SATIR).length, 'branş', 'brans', function () { kategoriyeGit('brans'); }]].forEach(function (s) {
+      var d = dugme('sayi', null, s[3]);
+      d.appendChild(ikon(s[2]));
       d.appendChild(yap('b', null, s[0]));
       d.appendChild(yap('span', null, s[1]));
       sayilar.appendChild(d);
     });
     o.appendChild(sayilar);
-    o.appendChild(yap('p', 'guncel', 'Veriler: ' + ZAMAN + ' · sayfa her açılışta güncellenir'));
+    o.appendChild(yap('p', 'guncel', 'Son güncelleme: ' + ZAMAN + ' · her açılışta yenilenir'));
 
-    // Hızlı arama
-    var h = dugme('hizli', null, function () { listeyeGit({ odak: true }); });
-    h.appendChild(ikon('ara'));
-    h.appendChild(document.createTextNode('Ad, hastane, şehir ya da branş ara'));
-    o.appendChild(h);
-
-    // Şehrim (yakınımdakiler)
-    var b = bolum('Yakınındakiler');
+    // Yakınındakiler: şehir seçimi kartın içinde
+    var b = bolum('Yakınındakiler', 'sehir');
     b.appendChild(sehrimKutusu());
     o.appendChild(b);
 
@@ -275,7 +342,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     var t = { asistan: 0, pratisyen: 0, diger: 0 };
     SATIR.forEach(function (r) { var x = tur(r[3]); if (t[x] != null) t[x]++; });
     var top = t.asistan + t.pratisyen + t.diger || 1;
-    b = bolum('Uzmanlık durumu');
+    b = bolum('Uzmanlık durumu', 'brans');
     var k = yap('div', 'kutu'), y = yap('div', 'yigin'), a = yap('div', 'aciklama');
     [['asistan', 'Asistan', 'var(--bordo)', 'asistan'], ['pratisyen', 'Pratisyen hekim', '#c98a84', 'pratisyen'],
      ['diger', 'Diğer', 'var(--gri)', '']].forEach(function (p) {
@@ -296,17 +363,15 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     o.appendChild(b);
 
     // Harita
-    b = bolum('Türkiye haritası');
+    b = bolum('Türkiye haritası', 'harita');
     b.appendChild(haritaKutusu());
     o.appendChild(b);
 
-    // En kalabalıklar
-    [['sehir', 1, 'En çok mezun olan şehirler', 5], ['brans', 3, 'Branşlar', 6],
-     ['kurum', 2, 'En çok mezun olan hastaneler', 5]].forEach(function (p) {
-      var c = cubuklar(p[1], p[3], p[0]);
-      var tumu = dugme(null, 'Tümü (' + c.toplam + ')', function () { listeyeGit({ grup: p[0] }); });
-      b = bolum(p[2], tumu);
-      b.appendChild(c.kap);
+    // En kalabalıklar; "Tüm …" kategori sayfasını açar (kişileri değil)
+    [['sehir', 'En çok mezun olan şehirler', 5], ['brans', 'En çok seçilen branşlar', 5],
+     ['kurum', 'En çok mezun olan hastaneler', 5]].forEach(function (p) {
+      b = bolum(p[1], KATEGORI[p[0]].ikon);
+      b.appendChild(enCoklar(p[0], p[2]));
       o.appendChild(b);
     });
 
@@ -325,41 +390,146 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
 
     // Form çağrısı
     var cagri = yap('section', 'kutu cagri bolum');
-    cagri.appendChild(yap('p', null, 'Listede yok musun ya da bilgin değişti mi? Formu tekrar doldurman yeterli; ' +
-      'kaydın kendiliğinden güncellenir.'));
+    cagri.appendChild(yap('b', null, 'Listede yok musun?'));
+    cagri.appendChild(yap('p', null, 'Ya da bilgin mi değişti? Formu tekrar doldurman yeterli; kaydın kendiliğinden ' +
+      'güncellenir.'));
     var fa = yap('a', null, 'Formu doldur');
     fa.href = FORM_URL; fa.target = '_blank'; fa.rel = 'noopener';
     cagri.appendChild(fa);
     o.appendChild(cagri);
   }
 
+  // ---------------------------------------------------------------- Kategori sayfası (şehirler / branşlar / hastaneler)
+  function kategoriCiz() {
+    var K = KATEGORI[kategori], o = $('gKategori');
+    if (!K) { goster({ g: 'ozet' }); return; }
+    var liste = sayim(K.sutun, SATIR), en = liste.length ? liste[0][1] : 1;
+    o.textContent = '';
+    var ar = yap('div', 'arama kategori-ara');
+    ar.appendChild(ikon('ara'));
+    var inp = yap('input');
+    inp.type = 'search'; inp.autocomplete = 'off';
+    inp.placeholder = K.baslik.split(' /')[0] + ' içinde ara';
+    inp.setAttribute('aria-label', inp.placeholder);
+    ar.appendChild(inp);
+    o.appendChild(ar);
+    var kap = yap('div', 'kutu cubuklar');
+    o.appendChild(kap);
+    function doldur() {
+      var q = sade(inp.value.trim()), n = 0;
+      kap.textContent = '';
+      liste.forEach(function (s, i) {
+        if (q && sade(s[0]).indexOf(q) < 0) return;
+        n++;
+        kap.appendChild(siraliSatir(s, i, en, function () {
+          var a = { grup: K.grup }; a[kategori] = s[0]; listeyeGit(a);
+        }));
+      });
+      if (!n) kap.appendChild(yap('div', 'bos', 'Eşleşen ' + K.birim + ' yok.'));
+    }
+    inp.addEventListener('input', doldur);
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') this.blur(); });
+    doldur();
+    o.appendChild(yap('p', 'not', 'Birine dokun: oradaki mezunlar listelenir.'));
+  }
+
+  // ---------------------------------------------------------------- Yakınındakiler (şehrim)
+  var sehrimDegistir = false;
+  function tumSehirler() {  // [[şehir, kişi sayısı], …] — listedekiler önce, sonra diğer iller
+    var var_ = {};
+    sayim(1, SATIR).forEach(function (s) { var_[s[0]] = s[1]; });
+    Object.keys(IL_KONUM).forEach(function (il) { if (!(il in var_)) var_[il] = 0; });
+    return Object.keys(var_).map(function (k) { return [k, var_[k]]; })
+      .sort(function (a, b) { return b[1] - a[1] || sirala(a[0], b[0]); });
+  }
+  function sehrimSec(v) {
+    depo.koy('sehrim', v);
+    sehrimDegistir = false;
+    sehrimYenile();
+    if (v) bildir('Şehrin kaydedildi: ' + v + ' (sadece bu cihazda)');
+  }
+
   function sehrimKutusu() {
     var k = yap('div', 'kutu sehrim'), sehrim = depo.al('sehrim');
-    var r = yap('div', 'rozet-buyuk');
-    r.appendChild(ikon('sehir'));
-    k.appendChild(r);
-    var m = yap('div', 'metin');
-    if (!sehrim) {
-      m.appendChild(yap('b', null, 'Şehrini seç'));
-      m.appendChild(yap('span', null, 'Aynı şehirdeki mezunları tek dokunuşla gör'));
-      k.appendChild(m);
-      k.appendChild(dugme('dugme', 'Seç', sehrimPenceresi));
-    } else {
-      var n = SATIR.filter(function (x) { return x[1] === sehrim; }).length;
-      m.appendChild(yap('b', null, sehrim + (n ? ': ' + n + ' mezun' : '')));
-      var alt = yap('span');
-      alt.appendChild(document.createTextNode(n ? 'Senin şehrin · ' : 'Bu şehirde henüz kimse yok · '));
-      alt.appendChild(dugme('bag', 'Değiştir', sehrimPenceresi));
-      m.appendChild(alt);
-      k.appendChild(m);
-      if (n) k.appendChild(dugme('dugme', 'Gör', function () { listeyeGit({ sehir: sehrim, grup: 'kurum' }); }));
-    }
     k.id = 'sehrimKutu';
+    if (sehrim && !sehrimDegistir) {
+      var kisiler = SATIR.filter(function (x) { return x[1] === sehrim; });
+      var ust = yap('div', 'sehrim-ust');
+      var r = yap('div', 'rozet-buyuk'); r.appendChild(ikon('sehir'));
+      ust.appendChild(r);
+      var m = yap('div', 'metin');
+      m.appendChild(yap('b', null, sehrim));
+      m.appendChild(yap('span', null, kisiler.length ? kisiler.length + ' mezun bu şehirde' : 'Bu şehirde henüz kimse yok'));
+      ust.appendChild(m);
+      ust.appendChild(dugme('bag', 'Değiştir', function () { sehrimDegistir = true; sehrimYenile(); }));
+      k.appendChild(ust);
+      if (kisiler.length) {
+        var on = yap('div', 'onizleme');
+        kisiler.slice(0, 3).forEach(function (x) {
+          var s = yap('div', 'mini');
+          s.appendChild(yap('span', 'bas', basHarf(x[0])));
+          var t = yap('span', 'mini-metin');
+          t.appendChild(yap('b', null, x[0]));
+          t.appendChild(yap('small', null, [x[2], x[3]].filter(Boolean).join(' · ')));
+          s.appendChild(t);
+          on.appendChild(s);
+        });
+        k.appendChild(on);
+        var g = dugme('dugme genis', null, function () { listeyeGit({ sehir: sehrim, grup: 'kurum' }); });
+        g.appendChild(document.createTextNode(kisiler.length > 3 ? 'Hepsini gör (' + kisiler.length + ')' : 'Listede gör'));
+        g.appendChild(ikon('ileri'));
+        k.appendChild(g);
+      }
+      return k;
+    }
+
+    // Seçim: kartın içinde yazarak ya da sık şehirlerden dokunarak
+    k.appendChild(yap('b', 'sehrim-baslik', sehrim ? 'Şehrini değiştir' : 'Hangi şehirdesin?'));
+    k.appendChild(yap('p', 'not', 'Seçince aynı şehirdeki mezunlar burada görünür. Seçimin sadece bu cihazda saklanır.'));
+    var ar = yap('div', 'arama');
+    ar.appendChild(ikon('ara'));
+    var inp = yap('input');
+    inp.type = 'search'; inp.autocomplete = 'off'; inp.placeholder = 'Şehrini yaz (ör. İzmir)';
+    inp.setAttribute('aria-label', 'Şehrini yaz');
+    ar.appendChild(inp);
+    k.appendChild(ar);
+    var oneriler = yap('div', 'oneriler');
+    k.appendChild(oneriler);
+    var hepsi = tumSehirler();
+    function doldur() {
+      var q = sade(inp.value.trim());
+      oneriler.textContent = '';
+      var uy = q ? hepsi.filter(function (s) { return sade(s[0]).indexOf(q) === 0; })
+                     .concat(hepsi.filter(function (s) { var i = sade(s[0]).indexOf(q); return i > 0; }))
+                 : hepsi.slice(0, 6);
+      uy.slice(0, q ? 6 : 6).forEach(function (s) {
+        var c = dugme('cip', null, function () { sehrimSec(s[0]); });
+        c.appendChild(yap('span', null, s[0]));
+        if (s[1]) c.appendChild(yap('small', 'cip-n', s[1]));
+        oneriler.appendChild(c);
+      });
+      if (q && !uy.length) oneriler.appendChild(yap('span', 'not', 'Bu adla şehir bulunamadı.'));
+    }
+    inp.addEventListener('input', doldur);
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { var ilk = oneriler.querySelector('button'); if (ilk) ilk.click(); }
+    });
+    doldur();
+    if (sehrim) {
+      var alt = yap('div', 'sehrim-alt');
+      alt.appendChild(dugme('bag', 'Vazgeç', function () { sehrimDegistir = false; sehrimYenile(); }));
+      alt.appendChild(dugme('bag soluk', 'Şehrimi unut', function () { sehrimSec(''); }));
+      k.appendChild(alt);
+    }
     return k;
   }
   function sehrimYenile() {
     var eski = $('sehrimKutu');
     if (eski) eski.parentNode.replaceChild(sehrimKutusu(), eski);
+  }
+  function basHarf(ad) {
+    var p = ad.split(' ').filter(Boolean);
+    return ((p[0] || '').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : '')).toLocaleUpperCase('tr');
   }
 
   // ---------------------------------------------------------------- Harita
@@ -417,6 +587,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     kap.appendChild(svg);
     if (disari.length) {
       var d = yap('div', 'disari');
+      d.appendChild(yap('span', 'disari-baslik', 'Yurt dışı'));
       disari.forEach(function (s) {
         var c = dugme('cip', null, function () { listeyeGit({ sehir: s[0] }); });
         c.appendChild(ikon('sehir'));
@@ -457,9 +628,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
 
   function kart(r) {
     var c = yap('article', 'kisi');
-    var p = r[0].split(' ').filter(Boolean);
-    c.appendChild(yap('div', 'bas',
-      ((p[0] || '').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : '')).toLocaleUpperCase('tr')));
+    c.appendChild(yap('div', 'bas', basHarf(r[0])));
     var g = yap('div', 'govde');
     g.appendChild(isaretle(yap('div', 'ad'), r[0], kelimeK));
     if (r[3]) {
@@ -550,7 +719,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   }
 
   // ---------------------------------------------------------------- Alttan açılan pencere
-  var pencereSecenekleri = null;
+  var pencereSecenekleri = null, pencereAcik = false, pencereGecmiste = false;
 
   function pencereAc(baslik, aramaVar) {
     $('pBaslik').textContent = baslik;
@@ -561,17 +730,24 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     $('perde').hidden = false; $('pencere').hidden = false;
     document.body.classList.add('kilitli');
     setTimeout(function () { $('perde').classList.add('acik'); $('pencere').classList.add('acik'); }, 16);
-    if (GECMIS) GECMIS.push({ g: gorunum, p: 1 });
+    pencereAcik = true;
+    // Tarayıcıda geri tuşu pencereyi kapatsın diye geçmişe bir adım eklenir (Apps Script'te gerek yok)
+    if (WEB) { history.pushState(simdiki(), ''); pencereGecmiste = true; }
   }
   function pencereKapat(gecmisten) {
-    if ($('pencere').hidden) return;
+    if (!pencereAcik) return;
+    pencereAcik = false;
     $('perde').classList.remove('acik'); $('pencere').classList.remove('acik');
     document.body.classList.remove('kilitli');
-    setTimeout(function () { $('perde').hidden = true; $('pencere').hidden = true; }, 220);
-    if (GECMIS && gecmisten !== true) GECMIS.replace({ g: gorunum });
+    setTimeout(function () { if (!pencereAcik) { $('perde').hidden = true; $('pencere').hidden = true; } }, 220);
+    if (pencereGecmiste) {
+      pencereGecmiste = false;
+      if (gecmisten !== true) { yoksay = true; history.back(); }
+    }
   }
-  $('perde').addEventListener('click', pencereKapat);
-  $('pKapat').addEventListener('click', pencereKapat);
+  var yoksay = false;  // pencereyi kapatmak için yapılan history.back() sayfa değiştirmesin
+  $('perde').addEventListener('click', function () { pencereKapat(); });
+  $('pKapat').addEventListener('click', function () { pencereKapat(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') pencereKapat(); });
 
   /** secenekler: [{ deger, yazi, n, secili, ara? }] — ara başlığı için { ara: 'Başlık' } */
@@ -626,24 +802,6 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     }), function (v) { durum.grup = v; listeCiz(true); });
   }
 
-  function sehrimPenceresi() {
-    var var_ = {}, sehrim = depo.al('sehrim');
-    sayim(1, SATIR).forEach(function (s) { var_[s[0]] = s[1]; });
-    Object.keys(IL_KONUM).forEach(function (il) { if (!(il in var_)) var_[il] = 0; });
-    var liste = Object.keys(var_).sort(function (a, b) { return var_[b] - var_[a] || sirala(a, b); });
-    pencereAc('Şehrini seç', true);
-    var secenekler = [{ ara: 'En çok kişi olandan aza' }].concat(liste.map(function (il) {
-      return { deger: il, yazi: il, n: var_[il], secili: il === sehrim };
-    }));
-    if (sehrim) secenekler.push({ deger: '', yazi: 'Şehrimi unut', secili: false });
-    secenekleriCiz(secenekler, function (v) {
-      depo.koy('sehrim', v);
-      sehrimYenile();
-      if (v) bildir('Şehrin kaydedildi: ' + v + ' (sadece bu cihazda)');
-    });
-    setTimeout(function () { $('pAra').focus(); }, 250);
-  }
-
   function anaEkranPenceresi() {
     pencereAc('Ana ekrana ekle', false);
     var k = $('pIcerik'), d = yap('div', 'adimlar');
@@ -691,8 +849,10 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   });
   $('ara').addEventListener('keydown', function (e) { if (e.key === 'Enter') this.blur(); });
   $('sil').addEventListener('click', function () { $('ara').value = ''; durum.ara = ''; listeCiz(); $('ara').focus(); });
-  $('sOzet').addEventListener('click', function () { gorunumAc('ozet'); });
-  $('sListe').addEventListener('click', function () { gorunumAc('liste'); });
+  $('sOzet').addEventListener('click', anaSayfa);
+  $('sListe').addEventListener('click', function () { if (gorunum !== 'liste') git({ g: 'liste', d: kopya(durum) }); });
+  $('anaSayfa').addEventListener('click', anaSayfa);
+  $('geri').addEventListener('click', geri);
   window.addEventListener('scroll', function () {
     if (gorunum !== 'liste') return;
     $('arac').classList.toggle('golgeli', window.scrollY > 70);
@@ -704,13 +864,14 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function ciz() {
     ozetCiz();
     if (gorunum === 'liste') listeCiz();
+    if (gorunum === 'kategori') kategoriCiz();
+    ustYaz();
   }
   function baslat() {
-    ciz();
-    $('ara').value = durum.ara;
+    ozetCiz();
     var filtreli = durum.sehir || durum.brans || durum.kurum || durum.ara || durum.grup;
-    if (GECMIS) GECMIS.replace({ g: filtreli ? 'liste' : 'ozet' });
-    if (filtreli) gorunumAc('liste', true);
+    goster(filtreli ? { g: 'liste', d: kopya(durum) } : { g: 'ozet' });
+    gecmisDegistir(simdiki());
   }
 
   function yukleniyor(hata) {

@@ -25,24 +25,29 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mezun Arama">
-<link rel="preload" href="app.js?v=bc5f7f089f" as="script">
+<link rel="preload" href="app.js?v=5bc3d6b2ff" as="script">
 <link rel="preconnect" href="https://script.google.com" crossorigin>
-<link rel="stylesheet" href="app.css?v=bc5f7f089f">
+<link rel="stylesheet" href="app.css?v=5bc3d6b2ff">
 </head>
 <body>
-<header class="ust">
-  <div class="ic marka">
-    <img src="logo-192.png" width="52" height="52"
-         alt="İstanbul Üniversitesi-Cerrahpaşa 199. Dönem Mezunları logosu">
-    <div>
-      <h1>Mezun Arama</h1>
-      <p>Cerrahpaşa Tıp Fakültesi · 199. Dönem</p>
-    </div>
+<!-- Üst çubuk: her sayfada; logo/başlık ana sayfaya, ok bir önceki sayfaya döner -->
+<header class="ust" id="ust">
+  <div class="ic ust-ic">
+    <button class="geri" id="geri" type="button" aria-label="Geri" hidden>
+      <svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="marka" id="anaSayfa" type="button" aria-label="Ana sayfaya dön">
+      <img src="logo-192.png" width="44" height="44"
+           alt="İstanbul Üniversitesi-Cerrahpaşa 199. Dönem Mezunları logosu">
+      <span><b id="ustBaslik">Mezun Arama</b><small id="ustAlt">Cerrahpaşa Tıp Fakültesi · 199. Dönem</small></span>
+    </button>
   </div>
 </header>
 
-<!-- Özet: ilk açılan ekran -->
-<main id="gOzet" class="ic" aria-label="Özet"></main>
+<!-- Ana sayfa (özet) -->
+<main id="gOzet" class="ic" aria-label="Ana sayfa"></main>
+
+<!-- Şehirler / Branşlar / Hastaneler listesi -->
+<main id="gKategori" class="ic" aria-label="Kategori" hidden></main>
 
 <!-- Mezunlar listesi -->
 <main id="gListe" aria-label="Mezunlar" hidden>
@@ -71,7 +76,7 @@
 
 <nav class="sekmeler" role="tablist">
   <button type="button" role="tab" id="sOzet" aria-selected="true">
-    <svg class="i" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Özet</button>
+    <svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 9.5V21h5v-6h4v6h5V9.5"/></svg>Ana sayfa</button>
   <button type="button" role="tab" id="sListe" aria-selected="false">
     <svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg>Mezunlar</button>
 </nav>
@@ -90,6 +95,6 @@
 <a id="formLink" href="https://forms.gle/QsYGyBopYRCDwUbw8" hidden></a>
 <a id="servisLink" href="https://akifokuyucu.github.io/mezun-arama/" hidden></a>
 
-<script src="app.js?v=bc5f7f089f" defer></script>
+<script src="app.js?v=5bc3d6b2ff" defer></script>
 </body>
 </html>
