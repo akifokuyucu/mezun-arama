@@ -141,7 +141,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function veriKur(v) {
     SATIR = ((v && v.satirlar) || []).map(function (r) { return r.slice(0, 4).concat([alanBul(r[3])]); })
       .sort(function (a, b) { return sirala(a[0], b[0]); });
-    ARANAN = SATIR.map(function (r) { return sade(r.slice(0, 4).join(' ')); });
+    ARANAN = SATIR.map(function (r) { return sade(r.slice(0, 4).concat([kisaKurum(r[2]), kisaBrans(r[3])]).join(' ')); });
     ZAMAN = (v && v.zaman) || '';
     DONEM = (v && v.toplam) || 0;
   }
@@ -163,10 +163,48 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     return 'Diğer';
   }
 
+  // Listede kısa adlar (tam ad kişi ayrıntısında ve başlıklarda kalır). Aramada ikisi de bulunur.
+  var BRANS_KISA = {
+    'kulak burun bogaz hastaliklari': 'KBB', 'fiziksel tip ve rehabilitasyon': 'FTR',
+    'kadin hastaliklari ve dogum': 'Kadın Doğum', 'cocuk sagligi ve hastaliklari': 'Çocuk Sağlığı',
+    'cocuk ve ergen ruh sagligi ve hastaliklari': 'Çocuk Psikiyatrisi', 'ruh sagligi ve hastaliklari': 'Psikiyatri',
+    'plastik, rekonstruktif ve estetik cerrahi': 'Plastik Cerrahi', 'deri ve zuhrevi hastaliklari': 'Dermatoloji',
+    'goz hastaliklari': 'Göz', 'ic hastaliklari': 'Dahiliye', 'beyin ve sinir cerrahisi': 'Beyin Cerrahisi',
+    'ortopedi ve travmatoloji': 'Ortopedi', 'gogus hastaliklari': 'Göğüs Hastalıkları'
+  };
+  function kisaBrans(b) {
+    if (!b) return '';
+    var k = b.replace(/\s+asistan[ıi]$/i, '').trim();
+    return BRANS_KISA[sade(k)] || k;
+  }
+  var KURUM_KISA = [
+    [/^T\.?C\.? Sağlık Bakanlığı\s+/i, ''],
+    [/Eğitim (ve )?Araştırma Hastanesi/g, 'EAH'],
+    [/İlçe Sağlık Müdürlüğü/g, 'İSM'],
+    [/Devlet Hastanesi/g, 'DH'],
+    [/Tıp Fakültesi/g, 'Tıp Fak.'],
+    [/Üniversitesi/g, 'Üniv.'],
+    [/Hastanesi/g, 'Hst.']
+  ];
+  function kisaKurum(k) {
+    if (!k) return '';
+    KURUM_KISA.forEach(function (x) { k = k.replace(x[0], x[1]); });
+    return k.trim();
+  }
+
   var SUTUN = { sehir: 1, kurum: 2, brans: 3, alan: 4 };
   var AD = { sehir: 'Şehir', kurum: 'Hastane / kurum', brans: 'Branş', alan: 'Alan' };
-  var GRUP_AD = { '': 'Gruplama yok', sehir: 'Şehre göre', kurum: 'Hastaneye göre', brans: 'Branşa göre',
-                  alan: 'Alana göre' };
+  // grup: '' = otomatik (seçili filtreye göre), 'yok' = düz liste, diğerleri elle seçilen
+  var GRUP_AD = { '': 'Otomatik', yok: 'Gruplama yok', sehir: 'Şehre göre', kurum: 'Hastaneye göre',
+                  brans: 'Branşa göre', alan: 'Alana göre' };
+  function otoGrup() {
+    if (durum.kurum) return 'brans';
+    if (durum.sehir) return 'kurum';
+    if (durum.brans) return 'sehir';
+    if (durum.alan) return 'brans';
+    return '';
+  }
+  function etkinGrup() { return durum.grup === 'yok' ? '' : (durum.grup || otoGrup()); }
   var ILK = 40, EK = 60;  // ilk çizilen kart sayısı, kaydırdıkça eklenen
   var SERVIS_URL = AYAR ? location.origin + location.pathname : ($('servisLink').getAttribute('href') || '');
   var FORM_URL = $('formLink').getAttribute('href');
@@ -267,6 +305,9 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     $('gKategori').hidden = gorunum !== 'kategori';
     $('sOzet').setAttribute('aria-selected', gorunum === 'ozet');
     $('sListe').setAttribute('aria-selected', gorunum === 'liste');
+    [['sSehir', 'sehir'], ['sBrans', 'brans'], ['sKurum', 'kurum']].forEach(function (s) {
+      $(s[0]).setAttribute('aria-selected', gorunum === 'kategori' && kategori === s[1]);
+    });
     $('geri').hidden = gorunum === 'ozet';
     document.body.classList.toggle('alt-sayfa', gorunum !== 'ozet');
     if (gorunum === 'liste') listeCiz();
@@ -499,36 +540,22 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     o.appendChild(ar);
     var kap = yap('div');
     o.appendChild(kap);
-    // Branşlarda alan bölümleri (Cerrahi, Dahili, …); diğer kategorilerde tek liste
-    var bolumler = kategori === 'brans' ? ALAN_SIRA.map(function (al) {
-      return { ad: al, liste: liste.filter(function (s) { return alanBul(s[0]) === al; }) };
-    }) : [{ ad: '', liste: liste }];
+    // Tek liste, en kalabalıktan aza (branşlar da alanlara bölünmeden); kısa adla da aranır
+    var kisa = { brans: kisaBrans, kurum: kisaKurum }[kategori];
     function doldur() {
-      var q = sade(inp.value.trim()), n = 0;
+      var q = sade(inp.value.trim());
       kap.textContent = '';
-      bolumler.forEach(function (bl) {
-        var uy = bl.liste.filter(function (s) { return !q || sade(s[0]).indexOf(q) >= 0; });
-        if (!uy.length) return;
-        if (bl.ad) {
-          var kisi = uy.reduce(function (t, s) { return t + s[1]; }, 0);
-          var h = dugme('alan-baslik', null, function () { listeyeGit({ alan: bl.ad, grup: 'brans' }); });
-          var nok = yap('i'); nok.style.background = ALAN_RENK[bl.ad];
-          h.appendChild(nok);
-          h.appendChild(yap('span', null, bl.ad));
-          h.appendChild(yap('small', null, uy.length + ' branş · ' + kisi + ' kişi'));
-          h.appendChild(ikon('ileri'));
-          kap.appendChild(h);
-        }
-        var kutu = yap('div', 'kutu cubuklar');
-        uy.forEach(function (s) {
-          n++;
-          kutu.appendChild(siraliSatir(s, liste.indexOf(s), en, function () {
-            var a = { grup: K.grup }; a[kategori] = s[0]; listeyeGit(a);
-          }));
-        });
-        kap.appendChild(kutu);
+      var uy = liste.filter(function (s) {
+        return !q || sade(s[0]).indexOf(q) >= 0 || (kisa && sade(kisa(s[0])).indexOf(q) >= 0);
       });
-      if (!n) kap.appendChild(yap('div', 'kutu bos', 'Eşleşen ' + K.birim + ' yok.'));
+      if (!uy.length) { kap.appendChild(yap('div', 'kutu bos', 'Eşleşen ' + K.birim + ' yok.')); return; }
+      var kutu = yap('div', 'kutu cubuklar');
+      uy.forEach(function (s) {
+        kutu.appendChild(siraliSatir(s, liste.indexOf(s), en, function () {
+          var a = { grup: K.grup }; a[kategori] = s[0]; listeyeGit(a);
+        }));
+      });
+      kap.appendChild(kutu);
     }
     inp.addEventListener('input', doldur);
     inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') this.blur(); });
@@ -631,7 +658,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     if (eski) eski.parentNode.replaceChild(sehrimKutusu(), eski);
   }
   function basHarf(ad) {
-    var p = ad.split(' ').filter(Boolean);
+    var p = ad.split(' ').filter(function (w) { return /^\p{L}/u.test(w); });  // sayı/simge kelimeleri atla
     return ((p[0] || '').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : '')).toLocaleUpperCase('tr');
   }
 
@@ -702,7 +729,23 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   }
 
   // ---------------------------------------------------------------- Liste
-  var cizilecek = [], cizilen = 0, kelimeK = [];
+  var cizilecek = [], cizilen = 0, kelimeK = [], gizliSutun = {};
+
+  // Sayacın yanındaki "Gruplu | Liste" seçimi
+  function gorunumSecCiz(eg) {
+    var s = $('gorSec');
+    s.textContent = '';
+    [['Gruplu', true], ['Liste', false]].forEach(function (x) {
+      var sec = x[1] ? !!eg : !eg;
+      var b = dugme(sec ? 'secili' : null, x[0], function () {
+        if (x[1]) durum.grup = otoGrup() ? '' : 'sehir';
+        else durum.grup = 'yok';
+        listeCiz();
+      });
+      b.setAttribute('aria-pressed', String(sec));
+      s.appendChild(b);
+    });
+  }
 
   function ciplerCiz() {
     var c = $('cipler');
@@ -714,9 +757,10 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
       b.appendChild(ikon('asagi'));
       c.appendChild(b);
     });
-    var g = dugme('cip' + (durum.grup ? ' secili' : ''), null, grupPenceresi);
+    var eg = etkinGrup();
+    var g = dugme('cip' + (eg ? ' secili' : ''), null, grupPenceresi);
     g.appendChild(ikon('grup'));
-    g.appendChild(yap('span', null, durum.grup ? GRUP_AD[durum.grup] : 'Grupla'));
+    g.appendChild(yap('span', null, eg ? GRUP_AD[eg] : 'Grupla'));
     c.appendChild(g);
     if (filtreVar() || durum.grup) {
       c.appendChild(dugme('cip', 'Temizle', function () {
@@ -737,20 +781,15 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     c.appendChild(yap('div', 'bas', basHarf(r[0])));
     var g = yap('div', 'govde');
     g.appendChild(isaretle(yap('div', 'ad'), r[0], kelimeK));
-    if (r[3]) {
-      var b = dugme('brans', null, function () { durum.brans = r[3]; listeCiz(true); });
-      b.title = 'Bu branştakileri göster';
-      g.appendChild(isaretle(b, r[3], kelimeK));
-    }
-    [[2, 'kurum', 'kurum'], [1, 'sehir', 'sehir']].forEach(function (x) {
-      if (!r[x[0]]) return;
-      var d = yap('div', 'bilgi');
-      d.appendChild(ikon(x[1]));
-      var bt = dugme(null, null, function () { durum[x[2]] = r[x[0]]; listeCiz(true); });
-      bt.title = 'Buradakileri göster';
-      d.appendChild(isaretle(bt, r[x[0]], kelimeK));
-      g.appendChild(d);
+    // Alt satır: branş · hastane · şehir (kısa adlarla); listede herkes için aynı olan ya da başlıkta yazan atlanır
+    var alt = yap('div', 'alt');
+    [[3, 'brans', kisaBrans], [2, 'kurum', kisaKurum], [1, 'sehir', String]].forEach(function (x) {
+      if (!r[x[0]] || gizliSutun[x[1]]) return;
+      var bt = dugme(null, null, function () { durum[x[1]] = r[x[0]]; listeCiz(true); });
+      bt.title = r[x[0]] + ' (buradakileri göster)';
+      alt.appendChild(isaretle(bt, x[2](r[x[0]]), kelimeK));
     });
+    if (alt.childNodes.length) g.appendChild(alt);
     c.appendChild(g);
     c.appendChild(ikon('ileri'));
     return c;
@@ -779,15 +818,17 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     m.appendChild(yap('span', null, parcalar.join(' · ')));
     ust.appendChild(m);
     k.appendChild(ust);
+    var eg = etkinGrup();
     OZET_BOYUT[ana].forEach(function (bt) {
-      if (durum[bt]) return;
+      if (durum[bt] || bt === eg) return;  // grup başlıkları zaten aynı dağılımı gösteriyor
       var liste = sayim(SUTUN[bt], sonuc);
       if (liste.length < 2) return;
       k.appendChild(yap('div', 'fo-baslik', BOYUT_BASLIK[bt]));
       var c = yap('div', 'oneriler');
       liste.slice(0, 8).forEach(function (s) {
         var b = dugme('cip', null, function () { durum[bt] = s[0]; listeCiz(true); });
-        b.appendChild(yap('span', null, s[0]));
+        b.title = s[0];
+        b.appendChild(yap('span', null, bt === 'brans' ? kisaBrans(s[0]) : bt === 'kurum' ? kisaKurum(s[0]) : s[0]));
         b.appendChild(yap('small', 'cip-n', s[1]));
         c.appendChild(b);
       });
@@ -809,9 +850,23 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     sayac.appendChild(document.createTextNode(sonuc.length === SATIR.length ? ' mezun' : ' kişi bulundu'));
 
     // Çizilecek öğeler: gruplu ise başlık + kişiler (gruplar kalabalıktan aza), değilse ada göre kişiler
+    var eg = etkinGrup();
+    gorunumSecCiz(eg);
+    // Kartlarda tekrar yazılmayacak sütunlar: grup başlığında yazan ve sonuçta herkes için aynı olan
+    gizliSutun = {};
+    ['brans', 'kurum', 'sehir'].forEach(function (k) {
+      if (k === eg || (sonuc.length > 1 && sayim(SUTUN[k], sonuc).length === 1)) gizliSutun[k] = true;
+    });
+    if (eg === 'alan') gizliSutun.alan = true;
+    // Altında bilgi kalmayan kısa satırlar ikişer yan yana dizilir
+    var sadeAd = sonuc.every(function (r) {
+      return ['brans', 'kurum', 'sehir'].every(function (k) { return gizliSutun[k] || !r[SUTUN[k]]; });
+    });
+    $('sonuc').classList.toggle('iki', sadeAd);
+
     cizilecek = [];
-    if (durum.grup) {
-      var sut = SUTUN[durum.grup], gruplar = {};
+    if (eg) {
+      var sut = SUTUN[eg], gruplar = {};
       sonuc.forEach(function (r) { var k = r[sut] || '(belirtilmemiş)'; (gruplar[k] = gruplar[k] || []).push(r); });
       Object.keys(gruplar).sort(function (a, b) { return gruplar[b].length - gruplar[a].length || sirala(a, b); })
         .forEach(function (k) {
@@ -948,7 +1003,9 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function grupPenceresi() {
     pencereAc('Grupla', false);
     secenekleriCiz(Object.keys(GRUP_AD).map(function (k) {
-      return { deger: k, yazi: GRUP_AD[k], secili: durum.grup === k };
+      var y = GRUP_AD[k];
+      if (k === '') y += otoGrup() ? ' (' + GRUP_AD[otoGrup()].toLocaleLowerCase('tr') + ')' : ' (filtre seçince)';
+      return { deger: k, yazi: y, secili: durum.grup === k };
     }), function (v) { durum.grup = v; listeCiz(true); });
   }
 
@@ -1071,6 +1128,12 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   $('sil').addEventListener('click', function () { $('ara').value = ''; durum.ara = ''; listeCiz(); $('ara').focus(); });
   $('sOzet').addEventListener('click', anaSayfa);
   $('sListe').addEventListener('click', function () { if (gorunum !== 'liste') git({ g: 'liste', d: kopya(durum) }); });
+  [['sSehir', 'sehir'], ['sBrans', 'brans'], ['sKurum', 'kurum']].forEach(function (s) {
+    $(s[0]).addEventListener('click', function () {
+      if (gorunum === 'kategori' && kategori === s[1]) window.scrollTo({ top: 0, behavior: 'smooth' });
+      else kategoriyeGit(s[1]);
+    });
+  });
   $('anaSayfa').addEventListener('click', anaSayfa);
   $('geri').addEventListener('click', geri);
   window.addEventListener('scroll', function () {
