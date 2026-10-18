@@ -111,7 +111,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     return b;
   }
   var IKON = {
-    kurum: '<path d="M4 21V7l8-4 8 4v14"/><path d="M12 9v6M9 12h6M9 21v-3h6v3"/>',
+    kurum: '<path d="M4 21V7l8-4 8 4v14"/><path d="M9 21v-3h6v3"/><path d="M14.3 8.4A3.05 3.05 0 1 0 14.3 13.6 2.6 2.6 0 0 1 14.3 8.4z"/>',
     sehir: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
     asagi: '<path d="M6 9l6 6 6-6"/>',
     ara: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
