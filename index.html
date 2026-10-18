@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#7c1714">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mezun Arama · Cerrahpaşa 199. Dönem</title>
+<meta name="description" content="Cerrahpaşa Tıp Fakültesi 199. Dönem mezunları nerede? Şehre, hastaneye ve branşa göre ara.">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://script.google.com https://script.googleusercontent.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="Cerrahpaşa 199. Dönem">
+<meta property="og:title" content="Mezun Arama · Cerrahpaşa 199. Dönem">
+<meta property="og:description" content="Cerrahpaşa Tıp Fakültesi 199. Dönem mezunları nerede? Şehre, hastaneye ve branşa göre ara.">
+<meta property="og:url" content="https://akifokuyucu.github.io/mezun-arama/">
+<meta property="og:image" content="https://akifokuyucu.github.io/mezun-arama/onizleme.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cerrahpaşa 199. Dönem Mezunları logosu ve Mezun Arama yazısı">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mezun Arama">
+<link rel="preload" href="app.js?v=bc5f7f089f" as="script">
+<link rel="preconnect" href="https://script.google.com" crossorigin>
+<link rel="stylesheet" href="app.css?v=bc5f7f089f">
+</head>
+<body>
+<header class="ust">
+  <div class="ic marka">
+    <img src="logo-192.png" width="52" height="52"
+         alt="İstanbul Üniversitesi-Cerrahpaşa 199. Dönem Mezunları logosu">
+    <div>
+      <h1>Mezun Arama</h1>
+      <p>Cerrahpaşa Tıp Fakültesi · 199. Dönem</p>
+    </div>
+  </div>
+</header>
+
+<!-- Özet: ilk açılan ekran -->
+<main id="gOzet" class="ic" aria-label="Özet"></main>
+
+<!-- Mezunlar listesi -->
+<main id="gListe" aria-label="Mezunlar" hidden>
+  <div class="arac" id="arac">
+    <div class="ic">
+      <div class="arama">
+        <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="ara" type="search" inputmode="search" enterkeyhint="search" autocomplete="off"
+               placeholder="Ad, hastane, şehir ara" aria-label="Mezun ara">
+        <button class="sil" id="sil" type="button" aria-label="Aramayı sil" hidden>×</button>
+      </div>
+      <div class="cipler" id="cipler"></div>
+      <div class="ozet-satir">
+        <span id="sayac"></span>
+        <button class="bag" id="paylas" type="button">
+          <svg class="i" viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>
+          Paylaş</button>
+      </div>
+    </div>
+  </div>
+  <div class="ic"><div id="sonuc" aria-live="polite"></div><div id="gozcu"></div></div>
+</main>
+
+<footer id="altBilgi">Liste, formu dolduranların paylaştığı ad, şehir, kurum ve branştan oluşur.
+  Telefon ve e-posta gösterilmez.</footer>
+
+<nav class="sekmeler" role="tablist">
+  <button type="button" role="tab" id="sOzet" aria-selected="true">
+    <svg class="i" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Özet</button>
+  <button type="button" role="tab" id="sListe" aria-selected="false">
+    <svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg>Mezunlar</button>
+</nav>
+
+<div class="perde" id="perde" hidden></div>
+<section class="pencere" id="pencere" role="dialog" aria-modal="true" aria-labelledby="pBaslik" hidden>
+  <div class="tutamac"></div>
+  <header><h3 id="pBaslik"></h3><button class="kapat" id="pKapat" type="button" aria-label="Kapat">×</button></header>
+  <div class="arama" id="pAramaKutu" hidden>
+    <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="pAra" type="search" autocomplete="off" placeholder="Listede ara" aria-label="Seçeneklerde ara">
+  </div>
+  <div class="icerik" id="pIcerik"></div>
+</section>
+<div class="bildirim" id="bildirim" role="status"></div>
+<a id="formLink" href="https://forms.gle/QsYGyBopYRCDwUbw8" hidden></a>
+<a id="servisLink" href="https://akifokuyucu.github.io/mezun-arama/" hidden></a>
+
+<script src="app.js?v=bc5f7f089f" defer></script>
+</body>
+</html>
