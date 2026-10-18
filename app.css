@@ -147,16 +147,66 @@
           font-weight: 700; font-size: 14.5px; }
   .tumu svg { width: 16px; height: 16px; }
   .kategori-ara { margin: 14px 0 10px; }
+  .alan-baslik { display: flex; align-items: center; gap: 8px; width: 100%; margin: 16px 0 8px; padding: 0 2px;
+                 border: 0; background: none; text-align: left; font-size: 15.5px; font-weight: 800; color: var(--yazi); }
+  .alan-baslik i { width: 12px; height: 12px; border-radius: 4px; }
+  .alan-baslik small { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--soluk); }
+  .alan-baslik svg { width: 16px; height: 16px; color: var(--gri); }
+
+  /* Katılım sayacı */
+  .katilim-ust { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .katilim-ust b { font-size: 17px; }
+  .katilim-ust span { font-size: 14px; font-weight: 700; color: var(--bordo-yazi); white-space: nowrap; }
+  .katilim-cubuk { height: 12px; margin-top: 10px; border-radius: 6px; background: var(--kara); overflow: hidden; }
+  .katilim-cubuk span { display: block; height: 100%; border-radius: 6px;
+                        background: linear-gradient(90deg, #b5524b, var(--bordo)); }
+  .katilim .not a { color: var(--bordo-yazi); font-weight: 700; }
+
+  /* Filtre özeti (listenin başında) */
+  .filtre-ozet { margin: 4px 0 12px; }
+  .fo-ust { display: flex; align-items: center; gap: 12px; }
+  .filtre-ozet .metin { min-width: 0; }
+  .filtre-ozet .metin b { display: block; font-size: 17px; line-height: 1.3; }
+  .filtre-ozet .metin span { font-size: 14px; color: var(--soluk); }
+  .fo-baslik { margin: 14px 0 0; font-size: 12px; font-weight: 700; color: var(--soluk); text-transform: uppercase;
+               letter-spacing: .05em; }
+  .filtre-ozet .oneriler { margin-top: 6px; }
+  .filtre-ozet .cip { max-width: 100%; }
+
+  /* Kişi kartı dokunulabilir, ayrıntı penceresi */
+  .kisi { cursor: pointer; align-items: center; }
+  .kisi > svg { flex: none; width: 18px; height: 18px; color: var(--gri); }
+  .kisi:active { transform: scale(.99); }
+  .kisi-detay { text-align: center; padding: 4px 16px 12px; }
+  .bas.buyuk { width: 72px; height: 72px; font-size: 26px; margin: 0 auto 10px; }
+  .kisi-detay h4 { margin: 0 0 6px; font-size: 20px; }
+  .kisi-detay .brans { cursor: default; }
+  .kisi-detay .bilgi { justify-content: center; }
+  .kisi-baglar { margin: 0 8px; }
+  .bag-satir { display: flex; align-items: center; gap: 10px; width: 100%; padding: 13px 4px; border: 0;
+               border-bottom: 1px solid var(--cizgi); background: none; text-align: left; font-size: 15px; }
+  .bag-satir:last-child { border-bottom: 0; }
+  .bag-satir > span { flex: 1; }
+  .bag-satir b { color: var(--bordo-yazi); font-size: 14.5px; }
+  .bag-satir svg { color: var(--bordo-yazi); }
+  .bag-satir svg:last-child { color: var(--gri); width: 16px; height: 16px; }
+  .pencere .kutu { margin: 0 8px; }
+  .pencere .ara-baslik { padding: 14px 16px 6px; }
+  button.mini { width: 100%; border: 0; border-bottom: 1px solid var(--cizgi); background: none; text-align: left;
+                padding: 10px 2px; }
+  button.mini:last-child { border-bottom: 0; }
 
   /* Harita */
   .harita svg { display: block; width: 100%; height: auto; }
-  .harita .kara { fill: var(--kara); stroke: var(--gri); stroke-width: 4; stroke-linejoin: round; }
-  .harita .kabarcik { fill: var(--bordo); fill-opacity: .85; stroke: #fff; stroke-width: 4; cursor: pointer; }
-  .harita .kabarcik:hover { fill-opacity: 1; }
-  .harita .etiket { font-size: 50px; font-weight: 700; fill: var(--yazi); paint-order: stroke; stroke: var(--kart);
-                    stroke-width: 12px; stroke-linejoin: round; pointer-events: none; }
-  .harita .sayi-yazi { font-size: 40px; font-weight: 700; fill: #fff; pointer-events: none; text-anchor: middle;
-                       dominant-baseline: central; }
+  .harita .il { fill: var(--kara); stroke: var(--kart); stroke-width: 1; stroke-linejoin: round; }
+  .harita .il.dolu { fill: var(--bordo); cursor: pointer; }
+  .harita .il.dolu:hover { stroke: var(--yazi); stroke-width: 1.5; }
+  .harita .il-sayi { font-size: 30px; font-weight: 800; fill: var(--yazi); text-anchor: middle; dominant-baseline: central;
+                     pointer-events: none; paint-order: stroke; stroke: var(--kart); stroke-width: 6px; }
+  .harita .il-sayi.koyu { fill: #fff; stroke: var(--bordo-koyu); }
+  .lejant { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 12px; color: var(--soluk); }
+  .lejant i { flex: 1; max-width: 160px; height: 8px; border-radius: 4px;
+              background: linear-gradient(90deg, rgba(124, 23, 20, .22), rgba(124, 23, 20, 1)); }
   .disari { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
   .disari-baslik { font-size: 13px; font-weight: 700; color: var(--soluk); margin-right: 2px; }
   .not { font-size: 13px; color: var(--soluk); margin: 8px 0 0; }
