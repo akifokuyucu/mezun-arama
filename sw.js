@@ -11,7 +11,9 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const u = new URL(e.request.url);
   if (e.request.method !== 'GET' || u.origin !== location.origin) return;
-  e.respondWith(fetch(e.request).then((r) => {
+  // Sayfanın kendisi her açılışta sunucuya sorulur (yeni sürüm hemen gelsin); app.js/app.css sürüm numaralı
+  const istek = e.request.mode === 'navigate' ? fetch(e.request.url, { cache: 'no-cache' }) : fetch(e.request);
+  e.respondWith(istek.then((r) => {
     if (r.ok) { const k = r.clone(); caches.open(ONBELLEK).then((c) => c.put(e.request, k)); }
     return r;
   }).catch(() => caches.match(e.request).then((r) => r || caches.match('./'))));
