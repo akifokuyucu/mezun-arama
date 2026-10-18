@@ -452,8 +452,8 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     o.appendChild(b);
 
     // En kalabalıklar; "Tüm …" kategori sayfasını açar (kişileri değil)
-    [['sehir', 'En çok mezun olan şehirler', 5], ['brans', 'En çok seçilen branşlar', 5],
-     ['kurum', 'En çok mezun olan hastaneler', 5]].forEach(function (p) {
+    [['sehir', 'Şehirler', 5], ['brans', 'En çok seçilen branşlar', 5],
+     ['kurum', 'Hastaneler', 5]].forEach(function (p) {
       b = bolum(p[1], KATEGORI[p[0]].ikon);
       b.appendChild(enCoklar(p[0], p[2]));
       o.appendChild(b);

@@ -1,6 +1,6 @@
-/* Mezun Arama service worker — sürüm 1b8432e967 */
-const ONBELLEK = 'mezun-arama-1b8432e967';
-const DOSYALAR = ['./', 'index.html', 'app.css?v=1b8432e967', 'app.js?v=1b8432e967', 'logo-192.png', 'favicon-32.png'];
+/* Mezun Arama service worker — sürüm 41f5844ddf */
+const ONBELLEK = 'mezun-arama-41f5844ddf';
+const DOSYALAR = ['./', 'index.html', 'app.css?v=41f5844ddf', 'app.js?v=41f5844ddf', 'logo-192.png', 'favicon-32.png'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(ONBELLEK).then((c) => c.addAll(DOSYALAR)).then(() => self.skipWaiting()));
 });
