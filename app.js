@@ -87,6 +87,51 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     "Yozgat": ["M514 128l4 4l4 3l11 0l7 -2l2 3l0 6l2 3l2 6l5 7l-1 7l-9 7l-6 10l-2 1l-7 9l-25 15l-12 -1l-2 -5l1 -3l-2 -2l-4 -3l-2 -5l-3 -2l-1 -4l-2 -1l-1 -3l-3 -2l-5 -2l-7 -8l-2 -5l-6 -1l-6 -5l-3 0l-1 -1l-1 -3l-1 -4l3 -1l8 -1l10 -4l8 1l4 -1l6 0l8 -4l4 2l3 -1l5 -4l1 -8l7 -1l2 3l7 0z",501,163],
     "Zonguldak": ["M297 64l3 -4l1 -5l-2 -1l1 -1l3 -1l2 -2l8 -3l11 -7l9 -5l5 -1l3 2l3 2l3 8l-1 6l-5 6l-2 9l0 6l-11 -1l-20 -2l-9 -4l-2 -2z",325,55]
   };
+/* İlçe sınırlı İstanbul haritası — kaynak: Harita Genel Müdürlüğü / OCHA, HDX "cod-ab-tur" (CC BY-IGO, atıf gerekir:
+     sayfadaki "Sınırlar: …" satırı). araclar/istanbul-harita-uret.js ile sadeleştirildi. Elle değiştirme; betiği yeniden çalıştır.
+     ILCE_HARITA[ilçe] = [SVG yolu, etiket x, etiket y, sınır kutusu x0, y0, x1, y1]; görünüm kutusu 0 0 1000 532. */
+  var ILCE_KUTU = [1000, 532];
+  var ILCE_HARITA = {
+    "Adalar": ["M593 482l-7 3l0 6l-4 1l3 1l-2 4l3 5l-3 3l2 2l3 1l2 0l1 -13l7 -9l-1 -3l-4 -1zM601 496l-2 3l3 3l1 -2l-2 -4zM523 489l-1 -1l1 2l2 -1l-2 0zM575 476l-3 1l1 2l-8 5l0 3l4 1l1 -3l2 0l0 2l5 -1l3 -3l-1 0l0 -1l1 1l-3 -7l-2 0zM556 474l0 3l-3 3l1 2l5 1l5 -4l-2 0l0 -3l-6 -2zM552 456l-5 1l3 5l0 1l1 1l3 -1l2 -2l-2 -5l-2 0z",589,494,521,455,603,508],
+    "Arnavutköy": ["M343 332l-1 -1l2 -5l8 4l5 -6l3 -1l1 -5l6 -7l10 9l4 2l3 -1l5 -6l2 -10l11 3l7 -6l5 -6l5 0l11 9l4 -1l-3 -18l1 -8l2 0l1 -5l-2 -3l1 -6l-2 -4l2 -1l1 -3l-6 -8l-6 -4l-1 -3l-4 -5l-1 -4l1 -2l-1 -5l-3 -4l-3 0l-2 -8l3 -1l2 -4l4 -19l-1 -4l-4 -2l-6 -2l-2 -2l-4 0l-10 -6l-2 0l-1 2l-2 0l-20 -10l-2 -2l2 1l0 -2l-2 -2l-2 1l-1 3l-3 0l-8 -5l-6 0l-13 -5l2 7l-2 -1l2 4l-4 7l-6 1l-15 -8l-6 6l-4 21l0 6l-3 10l-3 2l0 2l3 9l7 -1l7 3l0 6l1 1l-2 9l4 5l3 14l4 13l-1 13l-4 3l-2 6l-8 9l3 4l1 6l-5 8l4 -3l4 -5l5 0l1 -2l2 5l4 2l1 4l1 1l3 -5l9 19l1 1l2 -3l3 -1z",363,243,292,153,436,337],
+    "Ataşehir": ["M584 425l2 -1l6 -8l5 -1l7 1l4 -5l2 -1l6 4l2 -1l2 2l3 -3l6 -2l0 4l3 0l0 1l4 -1l-3 -5l-20 -7l-27 -2l-10 -8l-6 -1l-6 3l0 8l10 7l10 16z",593,407,563,390,636,426],
+    "Avcılar": ["M396 355l-9 -3l-1 -3l-10 -12l0 -1l-6 -9l-1 1l-1 7l5 13l1 9l-10 3l3 5l1 3l4 1l-4 4l0 3l6 2l-1 9l-2 2l4 4l-3 5l-5 -2l-2 1l2 6l5 5l0 2l3 0l0 5l5 1l2 2l-1 -2l4 2l1 -1l6 0l8 -6l2 0l-4 -17l-4 -27l2 -12z",383,380,363,327,403,419],
+    "Bağcılar": ["M430 356l-2 10l2 13l2 2l4 3l7 -3l4 2l1 -2l1 2l3 0l3 3l2 -2l-3 -5l1 -1l4 -1l2 2l0 -2l0 -6l-5 -1l-1 -2l0 -4l-3 -6l1 -6l2 -3l-3 -1l-5 5l-15 -5l-2 8z",443,367,428,347,462,386],
+    "Bahçelievler": ["M430 379l-2 -1l-1 8l3 9l-1 3l3 3l7 1l13 0l15 -6l-1 -10l-3 5l-3 2l-6 -9l-5 -1l-1 -2l-1 2l-4 -2l-7 3l-6 -5z",445,392,427,378,468,403],
+    "Bakırköy": ["M467 396l-17 7l-16 -1l-5 -4l-3 -1l-4 2l1 6l-8 2l-5 0l2 6l15 10l2 4l7 1l0 -2l3 2l5 -2l4 -10l1 1l-1 -2l9 0l5 3l3 -2l-3 2l0 -1l2 -1l-1 -1l8 -4l0 -8l1 -3l-1 -3l2 -4l-6 3z",441,411,410,392,474,429],
+    "Başakşehir": ["M441 351l2 -3l7 -20l0 -4l-3 -4l0 -4l-1 -2l-7 -5l-2 -4l-7 0l-11 -9l-5 0l-5 6l-7 6l-11 -3l-2 10l-6 6l-6 -1l-10 -9l-6 7l-1 5l-3 1l-5 6l-8 -4l-2 5l6 7l2 8l9 7l6 3l3 2l6 -1l-1 -9l-5 -13l1 -7l1 -1l6 9l0 1l13 16l12 3l16 -2l13 2l2 -8l9 3z",403,330,341,295,451,358],
+    "Bayrampaşa": ["M464 345l0 4l4 7l0 10l1 5l4 2l2 5l5 -2l3 1l3 3l2 -2l-8 -18l-7 -10l-9 -5z",475,364,464,344,488,380],
+    "Beşiktaş": ["M525 372l18 -9l5 -11l2 -1l-1 -7l6 -2l0 -2l-6 -1l-1 -4l-9 -2l5 -3l-6 0l-4 -5l-5 8l2 6l4 9l-2 7l-5 -3l-2 7l1 5l-1 0l-1 4l-2 0l2 4z",538,349,522,324,556,373],
+    "Beykoz": ["M560 344l8 9l6 0l3 0l-1 3l6 0l9 7l4 -2l3 8l2 -4l3 0l0 -1l9 -3l1 -2l2 1l14 1l5 -2l1 -2l-4 -8l1 -6l2 -7l7 -4l0 -6l6 -4l3 5l4 0l1 -2l0 -3l2 -1l-1 -3l3 0l1 -2l2 2l7 -4l2 1l3 -7l8 3l5 1l4 -3l4 3l10 -2l4 3l3 -1l2 -5l-1 -5l-4 -2l-1 -6l-3 0l-4 -5l-5 2l-3 -8l-1 -17l5 -8l-1 -4l1 -3l-11 -4l-10 -1l-10 -5l-2 1l-1 -2l-3 0l-1 -1l-1 -2l-5 2l-2 3l-4 -1l-3 1l-2 -2l-3 1l0 -1l-2 0l1 4l-9 3l-12 -1l-2 -2l-4 0l-1 6l-4 -2l-2 1l1 1l-1 2l-5 1l-6 3l1 2l-1 1l-6 2l1 7l-3 4l-1 1l-2 -1l-1 2l-2 -1l-8 3l0 5l-6 3l-1 2l3 6l-4 8l11 6l3 8l-1 3l-5 3l-2 4l-5 0l-3 3l-1 4l1 2l-1 1l1 8l-1 2z",628,298,559,237,715,369],
+    "Beylikdüzü": ["M375 415l0 -5l-3 0l0 -2l-5 -5l-2 -6l2 -1l-2 -2l-11 -1l-16 -9l0 2l-3 0l0 5l-7 12l-4 -4l-4 0l-1 7l2 6l-2 3l2 3l11 6l20 -2l3 1l3 -1l0 1l1 -3l-1 2l2 1l0 -2l1 2l0 -4l3 0l1 3l0 -3l3 -3l2 1l1 -2l4 0z",345,407,318,384,375,425],
+    "Beyoğlu": ["M523 371l-6 -2l-3 -3l-4 0l-10 -13l-1 1l1 0l0 5l-4 2l-1 3l7 8l0 1l7 3l2 6l4 1l9 -9l1 -2l-2 -1z",509,370,495,353,525,383],
+    "Büyükçekmece": ["M214 365l14 4l24 11l9 8l10 5l4 5l13 7l3 3l2 -1l1 -7l4 -9l6 -3l-2 0l0 -2l2 1l3 -3l12 4l2 4l-1 7l4 0l4 4l7 -12l0 -5l3 0l0 -2l-2 -1l-3 -9l3 -7l0 -6l-4 -11l3 -8l4 -5l-11 -21l-3 5l-1 -1l-1 -4l-4 -2l-2 -5l-1 2l-5 0l-4 5l-4 3l-7 17l-3 0l-5 -8l-6 -4l-11 6l-3 6l-8 3l-2 4l-1 7l-8 0l-8 -5l-5 -1l-6 1l-11 -6l-4 11l-1 15z",288,359,213,308,340,408],
+    "Çatalca": ["M50 193l4 -1l12 3l7 -1l9 -13l4 -2l-3 -11l0 -9l3 -5l6 -1l18 4l7 3l8 5l14 -1l10 -4l3 -4l3 0l2 3l0 4l-2 7l-3 -1l-1 4l-2 0l1 7l5 5l3 0l4 5l11 -4l5 2l-10 21l1 7l7 9l0 6l9 3l5 -1l1 2l3 11l5 6l3 1l0 2l3 0l1 3l-1 7l1 6l-2 1l-2 6l4 10l6 8l3 9l-2 10l9 15l-3 9l11 6l7 -1l10 6l5 1l5 -2l1 -6l2 -4l8 -3l3 -6l11 -6l6 4l5 8l3 0l7 -18l5 -7l-3 -10l7 -9l2 -6l4 -3l1 -14l-4 -11l-3 -15l-4 -5l2 -9l-1 -1l0 -6l-7 -3l-7 1l-3 -10l0 -1l3 -2l3 -10l0 -6l4 -21l6 -6l15 8l6 -1l4 -7l-2 -4l2 1l-2 -7l-22 -12l-7 -5l-21 -10l-53 -27l-72 -40l-3 -1l-6 -5l0 -2l-5 -3l-1 0l-2 -3l-4 -1l-2 -2l-1 -3l-1 -1l-3 2l-1 -1l-1 -2l1 -1l-8 -7l-3 -4l0 -2l-4 0l0 -3l-3 -2l1 -2l-4 -4l3 -2l-2 -3l-8 -2l-1 -3l-7 -1l-3 -2l-4 2l-2 4l-8 8l3 2l0 4l-2 2l1 3l-1 3l-2 0l0 5l-3 5l-16 10l-3 3l1 5l15 18l3 7l3 20l3 5l1 7l-1 5l-12 15l-5 11l1 16l-6 15l-4 18z",198,173,50,0,334,351],
+    "Çekmeköy": ["M718 362l5 -10l6 -7l0 -3l3 -1l0 -2l-5 -2l2 -3l3 -1l1 -4l-5 -2l-5 -4l-1 -9l-4 -2l-3 2l-3 -2l-4 1l-3 -3l-10 2l-4 -3l-4 3l-5 -1l-8 -3l-3 7l-2 -1l-7 4l-2 -2l-1 2l-3 0l-1 7l-2 2l-5 -1l-2 -3l-5 3l0 5l-1 2l-6 3l-2 7l-1 6l4 8l-1 2l-5 2l-14 -1l-2 -1l-1 2l-9 3l0 1l-3 0l-2 4l1 4l7 -1l7 4l8 11l11 1l4 -1l11 -1l3 -4l3 0l2 -4l5 0l4 -2l4 -7l4 -2l1 -4l3 -2l5 3l4 1l8 -2l3 1l4 5l7 0l5 2l-1 -12l3 -2l4 5z",672,347,597,307,733,389],
+    "Esenler": ["M462 342l-7 -9l-5 -9l0 4l-4 13l-5 10l6 2l5 -5l3 1l-3 7l3 8l0 4l1 2l5 1l2 5l5 -2l2 2l-2 6l1 4l7 -3l-2 -9l-4 -2l-2 -4l0 -12l-4 -7l0 -4l-2 -3z",458,355,440,323,476,386],
+    "Esenyurt": ["M338 336l1 1l-4 5l-3 8l4 11l0 6l-3 6l3 10l18 10l10 1l4 3l4 1l3 -5l-4 -4l2 -2l1 -9l-6 -2l0 -3l4 -4l-4 -1l-1 -3l-3 -5l4 -3l-9 -4l-9 -7l-2 -8l-5 -6l-3 1l-2 3z",352,368,331,331,376,398],
+    "Eyüpsultan": ["M500 353l2 0l6 -10l0 -4l2 0l0 -4l-7 -6l3 -4l-1 -2l3 -5l-2 -7l9 -14l-2 -6l-2 -1l-6 1l0 -3l-3 -1l-3 -7l2 -9l-1 -12l3 -11l0 -1l-6 -1l-5 -7l5 -15l3 -2l1 -4l-5 0l-10 -6l-8 1l-15 -4l-2 -2l1 -3l-4 1l-11 -2l-5 -2l-3 -7l-2 4l-3 -2l0 -2l3 0l-7 -4l-7 2l-3 -1l-2 -2l-4 19l-2 4l-3 1l2 8l3 0l3 4l1 5l-1 2l1 4l4 5l1 3l6 4l6 8l-1 3l-2 1l2 4l-1 6l2 3l-1 5l-2 0l-1 8l3 18l7 2l0 -6l5 -6l8 -5l14 10l10 12l3 7l4 3l1 10l1 3l-4 10l1 3l-2 1l4 4l3 -2l3 0l2 2l-1 3l1 2l2 0l-5 3l-1 -1l-1 1l-1 -1l-1 2l-3 -1l-3 2l4 6l-2 0l1 2l2 6l4 5l6 -7l0 -2l2 -2l-2 -2l-3 -5l2 -3l4 -2l-1 -5l2 0z",466,264,408,188,515,381],
+    "Fatih": ["M490 381l-3 6l-2 19l3 0l2 -3l1 -1l-1 1l4 -7l4 1l4 -1l1 2l-1 -2l5 1l9 0l1 -2l3 -5l0 -5l-5 1l-6 -2l-4 -6l-4 -2l-3 -6l-2 2l0 2l-6 7z",500,388,485,369,521,406],
+    "Gaziosmanpaşa": ["M481 362l3 -2l3 1l1 -2l1 1l1 -1l1 1l4 -2l-3 -8l-4 1l-2 1l-4 -4l2 -1l-1 -3l4 -10l-1 -1l-7 2l-10 1l-7 6l3 3l11 8l5 9z",479,347,462,333,496,363],
+    "Güngören": ["M473 393l3 -10l-7 3l-1 -4l2 -5l-2 -3l-5 2l-2 -5l0 8l-4 -2l-3 2l3 5l-2 2l5 7l3 -2l3 -5l1 10l6 -3z",465,385,454,371,476,397],
+    "Kadıköy": ["M564 402l-13 -6l0 -6l-5 -1l-8 9l-3 -1l4 4l-2 2l-3 -1l4 10l4 -1l2 -2l2 3l-1 1l2 -1l0 1l-2 2l-1 -2l2 4l-1 1l-1 -3l-1 4l1 1l1 -2l3 3l2 -3l4 1l3 4l5 0l2 3l5 3l2 -1l1 2l2 1l1 0l-2 -1l2 0l4 -3l5 -2l-10 -16l-10 -7z",559,411,534,388,584,432],
+    "Kağıthane": ["M529 333l0 -3l-2 -1l-8 1l-1 -3l-7 1l-4 -2l1 -3l-2 -3l-1 3l1 2l-3 4l7 7l0 3l-2 0l-1 5l-5 9l-2 0l5 8l2 0l5 -9l9 -4l0 -4l6 2l3 0l-1 -6l2 -1l-2 -6z",515,341,499,320,531,362],
+    "Kartal": ["M637 480l2 -5l0 -3l2 0l1 -5l4 4l3 -5l3 0l1 -1l-2 -13l4 -2l3 -6l-4 -14l-8 2l-2 0l-1 -3l-3 1l-5 9l-3 11l-3 1l0 -2l-2 2l-7 0l-8 3l-8 5l-2 -3l-3 1l-1 4l2 3l6 1l9 6l4 4l4 -1l14 6z",633,456,597,429,658,481],
+    "Küçükçekmece": ["M430 356l-12 -2l-22 1l-2 12l4 27l4 17l3 0l2 -3l2 2l2 -1l-1 -3l1 3l-1 1l2 3l-2 -6l5 0l8 -2l-1 -6l4 -2l3 1l1 -1l-3 -11l1 -8l2 1l-2 -13l2 -10zM409 410l-2 0l3 2l1 1l-2 -3z",412,380,393,354,431,414],
+    "Maltepe": ["M575 430l5 6l2 1l6 9l10 15l2 -5l2 0l2 3l8 -5l8 -3l7 0l2 -2l0 2l3 -1l2 -9l4 -7l-1 -5l-4 -5l3 -7l0 -3l-4 1l0 -1l-3 1l-1 -5l-5 2l-3 3l-2 -2l-2 1l-6 -4l-2 1l-4 5l-7 -1l-5 1l-6 8l-7 3l-4 3z",609,433,575,410,638,461],
+    "Pendik": ["M712 371l1 6l-10 8l-25 2l-4 10l1 15l7 13l5 0l-1 7l-8 7l-11 5l0 -2l-1 0l-8 2l-3 6l-4 2l2 13l-1 1l-3 0l-3 5l-4 -4l-1 5l-2 0l-1 8l5 5l7 2l0 -2l0 2l0 -1l-1 1l0 -1l0 1l0 -1l-1 1l0 -2l0 2l0 -2l0 1l-1 -1l1 1l0 -2l1 1l-2 -2l2 -1l10 6l-2 3l1 2l1 -4l4 4l-3 2l-4 -1l6 2l2 -1l0 1l0 -1l1 0l1 -1l2 2l5 0l2 -1l1 1l2 -2l2 -4l3 0l1 3l4 -2l1 -3l-2 -5l-3 -2l4 -1l6 -7l1 -8l0 -6l5 -4l1 -11l8 -2l10 -5l6 -7l8 -4l8 -10l7 -3l2 2l6 -1l4 -3l1 6l-1 8l1 3l4 3l1 -1l8 -6l4 -11l8 -10l0 -6l-3 -13l2 -8l-2 -3l-7 3l-2 7l-8 8l-9 7l-4 1l-7 -16l-3 -2l-11 0l-10 -5l-2 -3l-1 -9l-4 -6l-1 -1l-3 3l1 11z",708,425,637,357,787,497],
+    "Sancaktepe": ["M626 388l1 2l-5 1l0 1l2 2l2 5l0 6l7 4l3 6l-3 9l4 5l1 5l2 -4l2 -1l3 3l9 -2l1 -4l-3 -8l3 -3l2 -5l0 -6l3 -9l2 -1l11 1l1 1l4 -9l24 -1l11 -9l-1 -6l-5 -2l-7 0l-4 -5l-3 -1l-8 2l-10 -3l-3 4l-4 3l-4 7l-4 2l-5 0l-2 4l-3 0l-3 4l-11 1l-4 1l-6 0z",662,392,621,361,713,435],
+    "Sarıyer": ["M501 218l-1 4l-3 2l-5 15l5 7l6 1l0 1l-3 11l1 12l-2 9l3 7l3 1l0 3l7 -1l2 4l0 3l-8 14l2 7l-2 2l2 3l-1 3l4 2l7 -1l1 3l8 -1l2 1l0 3l5 -8l4 5l6 0l-5 3l9 2l1 4l6 1l0 2l1 -7l-2 -5l3 -7l0 -2l-2 -1l1 -1l2 1l5 -5l0 -3l-5 -7l-4 -2l2 -1l-2 -5l-9 -6l8 -6l3 -1l2 -3l6 -3l2 -7l3 -1l5 -9l4 -4l2 1l4 -6l-3 -5l4 -6l0 -3l1 0l0 3l0 -3l-3 -1l1 -2l-3 1l1 -2l-1 1l-2 -3l-2 2l0 -2l-2 -2l-1 1l-1 -2l-2 0l-1 1l0 -3l-2 1l-1 -4l-3 4l-1 -3l-2 0l-1 2l-2 -4l-3 1l-3 -2l-3 3l-3 -2l0 3l-2 1l-1 3l-12 0l-21 -6l-3 -4l-3 -2l-3 0z",535,272,492,218,587,342],
+    "Silivri": ["M219 339l3 -9l-9 -15l2 -10l-3 -9l-6 -8l-4 -10l2 -6l2 -1l-1 -6l1 -7l-1 -3l-3 0l0 -2l-3 -1l-5 -6l-3 -11l-1 -2l-5 1l-9 -3l0 -6l-7 -9l-1 -7l10 -21l-5 -2l-11 4l-4 -5l-3 0l-5 -5l-1 -7l2 0l1 -4l3 1l2 -7l0 -4l-2 -3l-3 0l-3 4l-10 4l-14 1l-13 -7l-20 -5l-6 1l-3 5l1 12l2 8l-4 2l-9 13l-7 1l-12 -3l-4 1l-4 21l-3 3l-11 2l-9 6l-10 9l0 13l3 6l14 13l-7 16l-3 2l0 5l-2 0l1 2l-4 5l-3 6l0 3l-8 14l-1 3l2 5l-3 4l-2 6l2 4l-2 3l1 2l3 0l1 3l-4 4l6 12l11 11l8 -5l9 -2l5 -3l11 -7l22 -4l3 2l3 -4l23 -6l20 2l3 -4l5 -1l6 1l3 5l2 0l6 5l10 -1l17 4l16 0l11 4l2 -1l11 4l1 -15l4 -11z",109,274,0,152,222,376],
+    "Sultanbeyli": ["M674 396l-13 -2l-4 10l-1 9l-4 5l3 8l-1 4l3 13l1 1l5 -1l4 -1l0 2l11 -5l8 -7l1 -4l-1 -4l-4 1l-6 -10l-2 -19z",668,421,652,393,687,445],
+    "Sultangazi": ["M462 342l7 -6l12 -1l5 -3l0 -10l-5 -4l-6 -10l-7 -9l-14 -10l-8 5l-5 6l0 6l-4 -1l2 4l7 5l1 6l8 13l7 9z",462,316,436,288,487,342],
+    "Şile": ["M963 388l9 -9l12 -27l2 -12l6 -2l5 -1l3 -3l-4 -16l-1 -18l-1 0l-1 2l-1 -2l-6 0l-10 3l-1 -3l-4 1l-2 -2l-5 2l1 1l-1 -1l-3 2l-14 -4l-12 -6l-3 1l0 -3l-5 -2l-2 2l1 -2l-5 -1l-6 2l-2 -1l0 -2l-1 2l-4 -1l-5 3l-3 -1l-10 -1l-4 -4l-11 2l-5 -3l-5 1l-6 -3l-1 -2l-2 2l-4 -2l0 -1l-4 -1l-1 -3l-3 1l-2 -2l-2 1l-1 -2l-4 3l3 -2l2 2l-4 1l1 1l-1 1l-4 2l-16 -2l-26 -8l-8 -1l-20 -7l-7 -1l-27 -9l-1 -3l-6 3l-3 -1l-5 2l-16 -4l-1 4l1 4l-5 7l-1 8l2 10l3 4l0 3l5 -1l4 5l3 0l1 6l4 2l1 2l-2 8l3 2l3 -2l3 1l2 10l5 4l5 2l-1 4l-3 1l-2 3l5 2l0 2l-3 1l0 3l-6 7l-5 10l2 12l4 4l7 3l12 0l4 3l6 15l4 -1l9 -7l8 -8l2 -7l6 -3l3 3l3 -4l0 -3l1 1l3 -3l5 5l-1 2l1 2l2 0l1 -2l9 2l16 7l15 19l5 12l7 5l5 0l14 0l10 -8l10 -14l2 -12l1 -4l6 -4l10 -2l7 6l8 2l19 10l7 0l12 -5z",841,332,691,249,1000,420],
+    "Şişli": ["M531 339l-2 1l1 6l-3 0l-6 -2l0 4l-9 4l-4 7l0 4l2 3l4 0l4 2l5 3l0 -3l2 0l1 -4l1 0l-1 -5l2 -7l5 3l2 -7l-4 -9z",521,356,507,339,535,371],
+    "Tuzla": ["M713 522l2 -10l2 -4l-5 -8l1 -2l3 -3l9 -2l24 -19l12 -17l1 -16l1 -6l3 -5l-1 1l-4 -3l-1 -3l1 -8l-1 -6l-4 3l-6 1l-2 -2l-7 3l-8 10l-8 4l-6 7l-10 5l-8 2l-1 11l-5 4l0 6l-1 8l-6 7l-4 1l3 2l2 7l-5 3l-1 -3l-3 0l-4 6l-2 -1l0 3l1 1l-1 0l1 0l1 3l-1 2l-3 -1l1 1l-2 1l2 1l-3 3l1 1l-1 -1l0 1l-2 -1l-1 0l0 -2l-1 1l-2 -3l2 -4l-4 5l3 3l-1 1l-2 -2l2 2l5 2l1 3l-2 5l-3 0l-1 3l-3 -1l2 -1l-4 3l-2 0l3 4l-1 4l3 -2l1 -3l-2 0l2 -1l6 -2l8 1l1 -2l2 -1l6 4l4 -6l6 2l5 4l5 -9l7 5z",718,471,657,410,767,532],
+    "Ümraniye": ["M570 353l1 3l-2 3l3 3l2 8l-3 6l-3 1l2 3l0 5l2 6l5 1l6 7l3 1l27 2l17 6l-4 -3l0 -6l-2 -5l-2 -3l4 -1l0 -2l-5 -2l-6 -9l-4 -3l-6 -2l-7 1l0 -6l-3 -6l-4 2l-9 -7l-6 0l1 -3l-3 0l-4 0z",595,382,567,352,630,409],
+    "Üsküdar": ["M537 400l-2 -3l3 1l8 -9l5 1l0 6l13 6l0 -8l8 -3l-3 -8l1 -3l-2 -3l3 -1l3 -6l-2 -8l-3 -3l2 -3l-1 -3l-5 -3l-5 -6l-1 1l-4 2l1 5l-2 3l0 9l-3 2l-21 15l2 7l0 3l-2 -1l2 2l-2 0l1 2l2 0l0 3l2 0l1 3l1 0z",555,377,529,343,574,403],
+    "Zeytinburnu": ["M488 378l-2 2l-5 -4l-6 2l0 10l-4 9l1 3l-2 10l1 1l1 -1l0 1l0 -1l4 1l9 -5l2 -19l3 -6l-2 -3z",480,394,470,375,491,412]
+  };
 (function () {
   'use strict';
 
@@ -97,6 +142,15 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     return String(s).toLocaleLowerCase('tr').replace(/[çğıöşüâîû]/g, function (h) { return HARF[h]; });
   }
   function sirala(a, b) { return a.localeCompare(b, 'tr'); }
+  /** Sayıya gelen iyelik eki, okunuşun son kelimesine göre: %49 → "u" (kırk dokuzu), %50 → "si" (ellisi) */
+  function sayiEki(n) {
+    n = Math.abs(Math.round(n));
+    var b = n % 10, o = Math.floor(n / 10) % 10;
+    if (b) return ['', 'i', 'si', 'ü', 'ü', 'i', 'sı', 'si', 'i', 'u'][b];
+    if (o) return ['', 'u', 'si', 'u', 'ı', 'si', 'ı', 'i', 'i', 'ı'][o];
+    if (n % 1000) return 'ü';  // yüz, iki yüz…
+    return n ? 'i' : 'ı';      // bin; sıfır
+  }
   function $(id) { return document.getElementById(id); }
   function yap(etiket, sinif, yazi) {
     var e = document.createElement(etiket);
@@ -139,7 +193,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   var SATIR = [], ARANAN = [], ZAMAN = '';
   var DONEM = 0;  // dönemin toplam mezun sayısı (katılım sayacı için; sadece sayı, isim değil)
   function veriKur(v) {
-    SATIR = ((v && v.satirlar) || []).map(function (r) { return r.slice(0, 4).concat([alanBul(r[3])]); })
+    SATIR = ((v && v.satirlar) || []).map(function (r) { return r.slice(0, 4).concat([alanBul(r[3]), ilceBul(r[1], r[2])]); })
       .sort(function (a, b) { return sirala(a[0], b[0]); });
     ARANAN = SATIR.map(function (r) { return sade(r.slice(0, 4).concat([kisaKurum(r[2]), kisaBrans(r[3])]).join(' ')); });
     ZAMAN = (v && v.zaman) || '';
@@ -161,6 +215,36 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     var b = sade(brans);
     for (var i = 0; i < ALAN_KURAL.length; i++) if (ALAN_KURAL[i][1].test(b)) return ALAN_KURAL[i][0];
     return 'Diğer';
+  }
+
+  // İstanbul'daki kişinin ilçesi kurum adından bulunur (formda ilçe sorulmuyor). Sıra: adında yanıltıcı ilçe geçen
+  // kurumlar (Fatih Sultan Mehmet Ataşehir'de), sonra kurum adında en önce geçen ilçe adı, sonra adında ilçe geçmeyen
+  // bilinen kurumlar. Bulunamazsa '' (haritanın altında "İlçesi bilinmeyen").
+  var ILCE_ONCE = [[/fatih sultan mehmet/, 'Ataşehir'], [/kosuyolu/, 'Kadıköy']];
+  var ILCE_KURUM = [
+    [/cerrahpasa|istanbul universitesi|istanbul tip|\bcapa\b|haseki|bezmialem|samatya|^istanbul egitim ve arastirma/, 'Fatih'],
+    [/cam ve sakura/, 'Başakşehir'], [/goztepe|erenkoy|medeniyet/, 'Kadıköy'], [/cemil tascioglu|okmeydani|etfal|florence/, 'Şişli'],
+    [/haydarpasa|siyami ersek|zeynep kamil|sultan abdulhamid/, 'Üsküdar'], [/lutfi kirdar/, 'Kartal'],
+    [/kanuni sultan suleyman|halkali|mehmet akif ersoy/, 'Küçükçekmece'], [/koc universitesi|yedikule/, 'Zeytinburnu'],
+    [/medipol mega/, 'Bağcılar'], [/taksim/, 'Beyoğlu'], [/istanbul fizik tedavi/, 'Bahçelievler'], [/mazhar osman/, 'Bakırköy'],
+    [/yeditepe/, 'Ataşehir'], [/marmara universitesi/, 'Pendik'], [/\beyup\b/, 'Eyüpsultan']
+  ];
+  var ILCE_SADE = null;
+  function ilceBul(sehir, kurum) {
+    if (sehir !== 'İstanbul' || !kurum || typeof ILCE_HARITA === 'undefined') return '';
+    var k = sade(kurum), i;
+    for (i = 0; i < ILCE_ONCE.length; i++) if (ILCE_ONCE[i][0].test(k)) return ILCE_ONCE[i][1];
+    if (!ILCE_SADE) ILCE_SADE = Object.keys(ILCE_HARITA).map(function (il) {
+      return [new RegExp('(^|[^a-z])' + sade(il) + '($|[^a-z])'), il];
+    });
+    var en = -1, bulunan = '';
+    ILCE_SADE.forEach(function (x) {
+      var m = x[0].exec(k);
+      if (m && (en < 0 || m.index < en)) { en = m.index; bulunan = x[1]; }
+    });
+    if (bulunan) return bulunan;
+    for (i = 0; i < ILCE_KURUM.length; i++) if (ILCE_KURUM[i][0].test(k)) return ILCE_KURUM[i][1];
+    return '';
   }
 
   // Listede kısa adlar (tam ad kişi ayrıntısında ve başlıklarda kalır). Aramada ikisi de bulunur.
@@ -192,13 +276,14 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     return k.trim();
   }
 
-  var SUTUN = { sehir: 1, kurum: 2, brans: 3, alan: 4 };
-  var AD = { sehir: 'Şehir', kurum: 'Hastane / kurum', brans: 'Branş', alan: 'Alan' };
+  var SUTUN = { sehir: 1, kurum: 2, brans: 3, alan: 4, ilce: 5 };
+  var AD = { sehir: 'Şehir', kurum: 'Hastane / kurum', brans: 'Branş', alan: 'Alan', ilce: 'İlçe' };
   // grup: '' = otomatik (seçili filtreye göre), 'yok' = düz liste, diğerleri elle seçilen
   var GRUP_AD = { '': 'Otomatik', yok: 'Gruplama yok', sehir: 'Şehre göre', kurum: 'Hastaneye göre',
-                  brans: 'Branşa göre', alan: 'Alana göre' };
+                  brans: 'Branşa göre', alan: 'Alana göre', ilce: 'İlçeye göre (İstanbul)' };
   function otoGrup() {
     if (durum.kurum) return 'brans';
+    if (durum.ilce) return 'kurum';
     if (durum.sehir) return 'kurum';
     if (durum.brans) return 'sehir';
     if (durum.alan) return 'brans';
@@ -213,16 +298,22 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     if (window.URLSearchParams) new URLSearchParams(location.search).forEach(function (v, k) { BASLANGIC[k] = v; });
   }
 
-  var durum = { sehir: '', kurum: '', brans: '', alan: '', ara: '', grup: '' };
+  var durum = { sehir: '', kurum: '', brans: '', alan: '', ilce: '', ara: '', grup: '' };
   Object.keys(durum).forEach(function (k) { if (BASLANGIC[k]) durum[k] = BASLANGIC[k]; });
   if (!GRUP_AD.hasOwnProperty(durum.grup)) durum.grup = '';
+  // Bağlantıdaki ilçe: tanınmıyorsa ya da başka şehirle gelmişse yok sayılır; tek başına gelirse şehir İstanbul olur
+  if (durum.ilce) {
+    if (typeof ILCE_HARITA === 'undefined' || !ILCE_HARITA.hasOwnProperty(durum.ilce) ||
+        (durum.sehir && durum.sehir !== 'İstanbul')) durum.ilce = '';
+    else durum.sehir = 'İstanbul';
+  }
 
   var depo = {
     al: function (k) { try { return localStorage.getItem('mezunArama.' + k) || ''; } catch (e) { return ''; } },
     koy: function (k, v) { try { localStorage.setItem('mezunArama.' + k, v); } catch (e) { /* gizli sekme */ } }
   };
 
-  function filtreVar() { return !!(durum.sehir || durum.brans || durum.kurum || durum.alan || durum.ara); }
+  function filtreVar() { return !!(durum.sehir || durum.brans || durum.kurum || durum.alan || durum.ilce || durum.ara); }
   function kelimeler() { return sade(durum.ara).split(/\s+/).filter(Boolean); }
 
   /** Filtrelere (atla: o sütunun filtresi yok sayılır) ve aramaya uyan satırlar. */
@@ -232,7 +323,8 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     for (var n = 0; n < SATIR.length; n++) {
       var r = SATIR[n], uy = true;
       for (var ad in SUTUN) {
-        if (ad !== atla && durum[ad] && r[SUTUN[ad]] !== durum[ad]) { uy = false; break; }
+        if (ad === atla || (atla === 'sehir' && ad === 'ilce')) continue;  // şehir değişince ilçe zaten düşer
+        if (durum[ad] && r[SUTUN[ad]] !== durum[ad]) { uy = false; break; }
       }
       if (!uy) continue;
       for (var j = 0; j < k.length; j++) if (ARANAN[n].indexOf(k[j]) < 0) { uy = false; break; }
@@ -294,15 +386,19 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function gecmisEkle(st) { if (GS) GS.push(st, {}); else if (WEB) history.pushState(st, ''); }
   function gecmisDegistir(st) { if (GS) GS.replace(st, {}); else if (WEB) history.replaceState(st, ''); }
   function kopya(d) { var k = {}; for (var a in d) k[a] = d[a]; return k; }
-  function simdiki() { return { g: gorunum, k: kategori, d: kopya(durum) }; }
+  function simdiki() { return { g: gorunum, k: kategori, d: kopya(durum), h: kopya(harita) }; }
 
   function goster(st) {
     gorunum = st.g || 'ozet';
     kategori = st.k || '';
     if (st.d) { durum = kopya(st.d); $('ara').value = durum.ara || ''; }
+    if (st.h) harita = { mod: st.h.mod === 'ist' ? 'ist' : 'tr', sec: st.h.sec || '' };
     $('gOzet').hidden = gorunum !== 'ozet';
     $('gListe').hidden = gorunum !== 'liste';
     $('gKategori').hidden = gorunum !== 'kategori';
+    $('gHarita').hidden = gorunum !== 'harita';
+    $('altBilgi').hidden = gorunum === 'harita';
+    $('haritaKaynak').hidden = gorunum !== 'ozet';  // harita verisinin kaynağı: sadece ana sayfanın en altında
     $('sOzet').setAttribute('aria-selected', gorunum === 'ozet');
     $('sListe').setAttribute('aria-selected', gorunum === 'liste');
     [['sSehir', 'sehir'], ['sBrans', 'brans'], ['sKurum', 'kurum']].forEach(function (s) {
@@ -312,6 +408,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     document.body.classList.toggle('alt-sayfa', gorunum !== 'ozet');
     if (gorunum === 'liste') listeCiz();
     else if (gorunum === 'kategori') kategoriCiz();
+    else if (gorunum === 'harita') haritaSayfasiCiz();
     ustYaz();
     window.scrollTo(0, 0);
   }
@@ -322,6 +419,10 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     if (gorunum === 'kategori') {
       var K = KATEGORI[kategori];
       b = K.baslik; a = sayim(K.sutun, SATIR).length + ' ' + K.birim + ' · en kalabalıktan aza';
+    }
+    if (gorunum === 'harita') {
+      b = 'Harita';
+      a = harita.mod === 'ist' ? 'İstanbul · ilçeye dokun' : 'Türkiye · ile dokun';
     }
     $('ustBaslik').textContent = b;
     $('ustAlt').textContent = a;
@@ -359,7 +460,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function listeyeGit(ayar) {
     ayar = ayar || {};
     var d = { sehir: ayar.sehir || '', kurum: ayar.kurum || '', brans: ayar.brans || '', alan: ayar.alan || '',
-              ara: ayar.ara || '', grup: ayar.grup || '' };
+              ilce: ayar.ilce || '', ara: ayar.ara || '', grup: ayar.grup || '' };
     git({ g: 'liste', d: d });
     if (ayar.odak) setTimeout(function () { $('ara').focus(); }, 60);
   }
@@ -409,6 +510,389 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     return kap;
   }
 
+  // ---------------------------------------------------------------- "Biliyor muydun?" kartı
+  // Sadece kullanıcının onayladığı 14 şablon (belgeler/BILIYOR-MUYDUN.md). Yeni şablon onaysız eklenmez.
+  // Sayılar ve adlar her açılışta veriden hesaplanır; koşulu tutmayan bilgi gösterilmez.
+  /** Bulunma eki (-de/-da/-te/-ta), kesme işaretiyle. Kurum adı iyelikle bitiyorsa (Hastanesi) -nde/-nda. */
+  function yerEki(ad, kurum) {
+    var s = String(ad).trim(), son = s.split(/\s+/).pop(), k;
+    if (/^[A-ZÇĞİÖŞÜ]{2,}$/.test(son)) {  // kısaltma harf harf okunur: EAH → "he" → 'de; sesli harfle biterse ona göre
+      k = son.slice(-1);
+      return '’' + (/[AIOU]/.test(k) ? 'da' : 'de');
+    }
+    var w = son.toLocaleLowerCase('tr').replace(/[^a-zçğıöşüâîû]/g, '');
+    var kalin = /[aıouâû]/.test((w.match(/[aeıioöuüâîû]/g) || ['e']).pop());
+    if (kurum && /[^aeıioöuü][ıiuü]$/.test(w)) return '’n' + (kalin ? 'da' : 'de');
+    return '’' + (/[fstkçşhp]$/.test(w) ? 't' : 'd') + (kalin ? 'a' : 'e');
+  }
+  /** Sayıdan sonra iyelik + bulunma: 65 → "’inde", 49 → "’unda" */
+  function sayiIyelikBulunma(n) {
+    var e = sayiEki(n);
+    return '’' + e + 'n' + (/[ıu]/.test(e) ? 'da' : 'de');
+  }
+  function adBicim(s) {
+    s = String(s).toLocaleLowerCase('tr');
+    return s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
+  }
+  /** Kurum adı kısaysa ve noktayla bitiyorsa (Fak., Hst.) cümlede tam adı kullan; eki doğru gelsin */
+  function cumleKurum(k) { var x = kisaKurum(k); return /\.$/.test(x) ? k : x; }
+  function brans_(b) { return b && !/pratisyen|mustafi/.test(sade(b)); }  // asistanlık branşı mı
+  function bransEtiket(b) {  // "4 pratisyen hekim", "3 dermatoloji asistanı", "3 KBB asistanı"
+    if (/pratisyen/.test(sade(b))) return 'pratisyen hekim';
+    return kisaBrans(b).split(' ').map(function (w) { return /^[A-ZÇĞİÖŞÜ]{2,}$/.test(w) ? w : w.toLocaleLowerCase('tr'); })
+      .join(' ') + ' asistanı';
+  }
+  function veVirgul(l) { return l.length < 2 ? l.join('') : l.slice(0, -1).join(', ') + ' ve ' + l[l.length - 1]; }
+  /** Listenin başında eşit olanlar: [[ad, n], …] → aynı en yüksek sayıdakiler */
+  function enUstler(l) { return l.filter(function (x) { return l.length && x[1] === l[0][1]; }); }
+
+  /** Koşulu tutan bilgiler: { id, p: [yazı | {b: kalın yazı}], git: function }. git şimdilik kullanılmıyor: kullanıcı
+   *  isteğiyle bilgiye dokununca bir yer açılmıyor (2026-10-20); hedefler geri açılabilsin diye duruyor. */
+  function bilgiler() {
+    var N = SATIR.length, B = [];
+    if (!N) return B;
+    function ekle(id, p, git) { B.push({ id: id, p: p, git: git }); }
+    var sehirler = sayim(1, SATIR), kurumlar = sayim(2, SATIR);
+    var asistan = sayim(3, SATIR.filter(function (r) { return brans_(r[3]); }));
+
+    // 1. İstanbul oranı
+    var ist = SATIR.filter(function (r) { return r[1] === 'İstanbul'; }).length, on = Math.round(10 * ist / N);
+    if (N >= 20 && ist && on >= 1 && on <= 9)
+      ekle('istanbul', ['Her 10 mezundan ', { b: on + '’' + sayiEki(on) }, ' İstanbul’da kaldı.'],
+        function () { listeyeGit({ sehir: 'İstanbul', grup: 'kurum' }); });
+
+    // 2. Kaç yere dağıldık, kaçında tek kişi
+    var tekYer = sehirler.filter(function (s) { return s[1] === 1; }).length;
+    if (tekYer >= 3)
+      ekle('yerler', [{ b: String(sehirler.length) }, ' farklı yere dağıldık; ', { b: String(tekYer) },
+        ' yerde tek başına bir Cerrahpaşalı var.'], function () { kategoriyeGit('sehir'); });
+
+    // 3. İstanbul'dan sonra en kalabalık şehir
+    if (sehirler.length && sehirler[0][0] === 'İstanbul') {
+      var ikinci = enUstler(sehirler.slice(1));
+      if (ikinci.length === 1 && ikinci[0][1] >= 3)
+        ekle('ikinciSehir', ['İstanbul’dan sonra en kalabalık şehir ', { b: ikinci[0][0] }, ': ' + ikinci[0][1] + ' mezun.'],
+          function () { listeyeGit({ sehir: ikinci[0][0], grup: 'kurum' }); });
+      else if (ikinci.length > 1 && ikinci.length <= 3 && ikinci[0][1] >= 3)
+        ekle('ikinciSehir', ['İstanbul’dan sonra en kalabalık şehirler ',
+          { b: veVirgul(ikinci.map(function (x) { return x[0]; })) }, ' başa baş: her birinde ' + ikinci[0][1] + ' mezun.'],
+          function () { kategoriyeGit('sehir'); });
+    }
+
+    // 4. Yurt dışı
+    if (typeof IL_HARITA !== 'undefined') {
+      var disari = ilSayilari().disari, nd = 0;
+      disari.forEach(function (s) { nd += s[1]; });
+      if (nd) {
+        var yerler = disari.slice(0, 3).map(function (s) { return s[0]; }).join(', ') + (disari.length > 3 ? '…' : '');
+        ekle('yurtDisi', [{ b: String(nd) }, ' mezunumuz yurt dışında: ' + yerler + '.'],
+          function () { haritayaGit({ mod: 'tr', sec: YURT_DISI }); });
+      }
+    }
+
+    // 5. En kalabalık hastane
+    var ilkK = enUstler(kurumlar);
+    if (ilkK.length === 1 && ilkK[0][1] >= 3)
+      ekle('enKurum', ['En kalabalık hastanemiz ', { b: cumleKurum(ilkK[0][0]) }, ': ' + ilkK[0][1] +
+        ' Cerrahpaşalı aynı çatı altında.'], function () { listeyeGit({ kurum: ilkK[0][0], grup: 'brans' }); });
+    else if (ilkK.length > 1 && ilkK.length <= 3 && ilkK[0][1] >= 3)
+      ekle('enKurum', ['En kalabalık hastanelerimiz ', { b: veVirgul(ilkK.map(function (x) { return cumleKurum(x[0]); })) },
+        ' başa baş: her birinde ' + ilkK[0][1] + ' Cerrahpaşalı.'], function () { kategoriyeGit('kurum'); });
+
+    // 6. Cerrahpaşa'dan ayrılamayanlar
+    var cp = kurumlar.filter(function (s) { return /cerrahpasa/.test(sade(s[0])); }), ncp = 0;
+    cp.forEach(function (s) { ncp += s[1]; });
+    if (ncp >= 2)
+      ekle('cerrahpasa', ['Cerrahpaşa’dan ayrılamayanlar: ', { b: String(ncp) },
+        ' mezun hâlâ Cerrahpaşa Tıp Fakültesi’nde.'], function () {
+        if (cp.length === 1) listeyeGit({ kurum: cp[0][0], grup: 'brans' }); else listeyeGit({ ara: 'Cerrahpaşa' });
+      });
+
+    // 7. En çok branş çeşidi olan hastane
+    var kb = {};
+    SATIR.forEach(function (r) { if (r[2] && brans_(r[3])) (kb[r[2]] = kb[r[2]] || {})[r[3]] = 1; });
+    var nKurum = {};
+    kurumlar.forEach(function (s) { nKurum[s[0]] = s[1]; });
+    var cesit = Object.keys(kb).map(function (k) { return [k, Object.keys(kb[k]).length]; })
+      .sort(function (a, b) { return b[1] - a[1] || nKurum[b[0]] - nKurum[a[0]] || sirala(a[0], b[0]); });
+    if (cesit.length && cesit[0][1] >= 5) {
+      var ck = cesit[0][0], cy = cumleKurum(ck);
+      ekle('cesit', [{ b: cy }, yerEki(cy, true) + ' ' + cesit[0][1] +
+        ' farklı branştan Cerrahpaşalı var; neredeyse kendi konsültasyon ekibi.'],
+        function () { listeyeGit({ kurum: ck, grup: 'brans' }); });
+    }
+
+    // 8. Tek mezunlu kurumlar
+    var tekK = kurumlar.filter(function (s) { return s[1] === 1; }).length;
+    if (tekK >= 5)
+      ekle('elci', [kurumlar.length + ' kurumun ', { b: tekK + sayiIyelikBulunma(tekK) },
+        ' tek mezunumuz var: oralarda Cerrahpaşa’nın elçisi onlar.'], function () { kategoriyeGit('kurum'); });
+
+    // 9. Aynı hastane, aynı branş
+    var cift = {};
+    SATIR.forEach(function (r) {
+      if (r[2] && r[3] && !/mustafi/.test(sade(r[3]))) { var a = r[2] + '\u0001' + r[3]; cift[a] = (cift[a] || 0) + 1; }
+    });
+    var ciftler = Object.keys(cift).map(function (k) { return [k, cift[k]]; })
+      .sort(function (a, b) { return b[1] - a[1] || sirala(a[0], b[0]); });
+    if (ciftler.length && ciftler[0][1] >= 3) {
+      var kv = ciftler[0][0].split('\u0001'), ky = cumleKurum(kv[0]);
+      ekle('ayniBrans', ['Aynı hastane, aynı branş: ', { b: ky }, yerEki(ky, true) + ' ' + ciftler[0][1] + ' ' +
+        bransEtiket(kv[1]) + ' yan yana.'], function () { listeyeGit({ kurum: kv[0], brans: kv[1] }); });
+    }
+
+    // 10. Asistanlıkta en çok tercih
+    var ilkB = enUstler(asistan);
+    if (asistan.length >= 3 && ilkB.length === 1) {
+      var p10 = ['Asistanlıkta en çok tercih ', { b: kisaBrans(ilkB[0][0]) }, ': ' + ilkB[0][1] + ' kişi.'];
+      var izl = asistan.slice(1, 3).map(function (s) { return kisaBrans(s[0]) + ' (' + s[1] + ')'; });
+      p10.push(' Onu ' + veVirgul(izl) + ' izliyor.');
+      ekle('enBrans', p10, function () { listeyeGit({ brans: ilkB[0][0], grup: 'kurum' }); });
+    } else if (asistan.length >= 3 && ilkB.length <= 3)
+      ekle('enBrans', ['Asistanlıkta en çok tercih edilenler ', { b: veVirgul(ilkB.map(function (s) { return kisaBrans(s[0]); })) },
+        ' başa baş: her birinde ' + ilkB[0][1] + ' kişi.'], function () { kategoriyeGit('brans'); });
+
+    // 11. Cerrahi mi Dahili mi
+    var c = 0, d = 0;
+    SATIR.forEach(function (r) { if (r[4] === 'Cerrahi') c++; else if (r[4] === 'Dahili') d++; });
+    if (c && d)
+      ekle('alan', ['Cerrahi ', { b: String(c) }, ', Dahili ', { b: String(d) }, ': ' +
+        (c > d ? 'bıçaklar önde! 🔪' : d > c ? 'steteskoplar önde! 🩺' : 'tam berabere!')],
+        function () { listeyeGit({ alan: d > c ? 'Dahili' : 'Cerrahi', grup: 'brans' }); });
+
+    // 12. Tek kişilik branşlar
+    var tekB = asistan.filter(function (s) { return s[1] === 1; }).map(function (s) { return kisaBrans(s[0]); }).sort(sirala);
+    if (tekB.length >= 3)
+      ekle('tekBrans', [{ b: String(tekB.length) }, ' branşta tek başına bir mezunumuz var: ' + tekB.slice(0, 3).join(', ') +
+        (tekB.length > 3 ? '…' : '.')], function () { kategoriyeGit('brans'); });
+
+    // 13. En sık ad (ilk ve ikinci adlar, son kelime soyadı sayılıp atlanır; en az 3 kişi)
+    var adlar = {};
+    SATIR.forEach(function (r) {
+      var w = String(r[0]).trim().split(/\s+/), gordu = {};
+      w.slice(0, -1).forEach(function (a) {
+        var k = a.toLocaleLowerCase('tr');
+        if (/^\p{L}+$/u.test(a) && !gordu[k]) { gordu[k] = 1; adlar[k] = (adlar[k] || 0) + 1; }
+      });
+    });
+    var adL = Object.keys(adlar).map(function (k) { return [adBicim(k), adlar[k]]; })
+      .sort(function (a, b) { return b[1] - a[1] || sirala(a[0], b[0]); });
+    var ilkA = enUstler(adL);
+    if (ilkA.length === 1 && ilkA[0][1] >= 3) {
+      var p13 = ['Dönemde ', { b: ilkA[0][1] + ' ' + ilkA[0][0] }, ' var, en sık ad bu.'];
+      var izA = adL.slice(1, 3).filter(function (s) { return s[1] >= 2; }).map(function (s) { return s[0] + ' (' + s[1] + ')'; });
+      if (izA.length) p13.push(' Onu ' + veVirgul(izA) + ' izliyor.');
+      ekle('ad', p13, function () { listeyeGit({ ara: ilkA[0][0] }); });
+    } else if (ilkA.length > 1 && ilkA.length <= 3 && ilkA[0][1] >= 3)
+      ekle('ad', ['En sık adlar ', { b: veVirgul(ilkA.map(function (s) { return s[0]; })) }, ' başa baş: her birinden ' +
+        ilkA[0][1] + ' kişi.'], function () { listeyeGit({ ara: ilkA[0][0] }); });
+
+    // 14. Katılım hedefi: dönemin %75'i (ulaşılınca gösterilmez)
+    if (DONEM) {
+      var hedef = Math.ceil(DONEM * 0.75);
+      if (N < hedef)
+        ekle('hedef', ['Hedefimiz dönemin ', { b: '%75’i' }, ', yani ' + hedef + ' kişi. Formu ', { b: (hedef - N) + ' kişi' },
+          ' daha doldurursa hedefe ulaşıyoruz!'], function () { window.open(FORM_URL, '_blank', 'noopener'); });
+    }
+
+    // 15–25: ikinci tur (kullanıcı onayı 2026-10-20). Dokununca açılacak yer yok.
+    var yurtici = SATIR.filter(function (r) { return typeof IL_HARITA !== 'undefined' && IL_HARITA[r[1]]; });
+    var istSatir = SATIR.filter(function (r) { return r[1] === 'İstanbul'; });
+
+    // 16. Ortalama uzaklık (haritadaki il noktaları arası kuş uçuşu, yaklaşık). 15. bilgi (en uzak mezun) kullanıcı isteğiyle kaldırıldı.
+    if (typeof IL_HARITA !== 'undefined' && IL_HARITA['İstanbul']) {
+      var uzak = yurtici.filter(function (r) { return r[1] !== 'İstanbul'; })
+        .map(function (r) { return [r[1], haritaKm(r[1])]; });
+      if (uzak.length >= 3) {
+        var top = 0;
+        uzak.forEach(function (u) { top += u[1]; });
+        ekle('ortUzak', ['İstanbul dışında çalışanlar İstanbul’dan ortalama ', { b: '~' + kmYaz(top / uzak.length, 10) + ' km' },
+          ' uzakta.']);
+      }
+    }
+
+    // 26. Uzaklıkların toplamı (yurt dışı dahil). Koordinatı bilinmeyen yurt dışı yer varsa toplam eksik kalacağı için gösterilmez.
+    if (typeof IL_HARITA !== 'undefined' && IL_HARITA['İstanbul']) {
+      var toplamKm = 0, eksik = false;
+      SATIR.forEach(function (r) {
+        if (!r[1] || r[1] === 'İstanbul') return;
+        if (IL_HARITA[r[1]]) toplamKm += haritaKm(r[1]);
+        else if (YURT_DISI_KONUM[sade(r[1])]) toplamKm += kusUcusu(ISTANBUL_KONUM, YURT_DISI_KONUM[sade(r[1])]);
+        else eksik = true;
+      });
+      var cevre = Math.round(100 * toplamKm / 40075);
+      if (!eksik && toplamKm >= 1000)
+        ekle('toplamUzak', ['Hepimizin İstanbul’a uzaklığını toplasak ', { b: '~' + kmYaz(toplamKm, 100) + ' km' }, ' ediyor: ',
+          cevre < 100 ? { b: 'dünyanın çevresinin %' + cevre + '’' + sayiEki(cevre) } : { b: 'dünyanın çevresinden bile fazla' }, '!']);
+    }
+
+    // 17. Avrupa / Anadolu yakası (yakası bilinmeyenler yazılmaz)
+    var avr = 0, ana = 0;
+    istSatir.forEach(function (r) { if (r[5]) { if (ANADOLU_YAKASI.indexOf(r[5]) >= 0) ana++; else avr++; } });
+    if (istSatir.length >= 10 && avr && ana)
+      ekle('yaka', ['İstanbul’dakilerin ', { b: avr + '’' + sayiEki(avr) }, ' Avrupa, ', { b: ana + '’' + sayiEki(ana) },
+        ' Anadolu yakasında.']);
+
+    // 18–19. İlçeler
+    var ilceler = sayim(5, istSatir), ilkI = enUstler(ilceler);
+    if (ilkI.length === 1 && ilkI[0][1] >= 3) {
+      var p18 = ['En kalabalık ilçe ', { b: ilkI[0][0] }, ': ' + ilkI[0][1] + ' mezun.'];
+      var izI = ilceler.slice(1, 3).map(function (s) { return s[0] + ' (' + s[1] + ')'; });
+      if (izI.length) p18.push(' Onu ' + veVirgul(izI) + ' izliyor.');
+      ekle('enIlce', p18);
+    } else if (ilkI.length > 1 && ilkI.length <= 3 && ilkI[0][1] >= 3)
+      ekle('enIlce', ['En kalabalık ilçeler ', { b: veVirgul(ilkI.map(function (s) { return s[0]; })) },
+        ' başa baş: her birinde ' + ilkI[0][1] + ' mezun.']);
+    if (typeof ILCE_HARITA !== 'undefined' && ilceler.length >= 2)
+      ekle('ilceSayisi', ['İstanbul’un ' + Object.keys(ILCE_HARITA).length + ' ilçesinin ',
+        { b: ilceler.length + sayiIyelikBulunma(ilceler.length) }, ' Cerrahpaşalı var.']);
+
+    // 20. Bölgeler
+    var bolgeler = sayim(0, yurtici.map(function (r) { return [BOLGE_IL[r[1]] || '']; }));
+    if (bolgeler.length >= 2) {
+      var p20 = bolgeler.length === 7 ? ['Türkiye’nin ', { b: '7 bölgesinin hepsinde' }, ' mezunumuz var.']
+        : ['Türkiye’nin 7 bölgesinin ', { b: bolgeler.length + sayiIyelikBulunma(bolgeler.length) }, ' mezunumuz var.'];
+      var ikinciB = enUstler(bolgeler.slice(1));
+      if (bolgeler[0][0] === 'Marmara' && ikinciB.length === 1)
+        p20.push(' Marmara’dan sonra en kalabalık bölge ', { b: ikinciB[0][0] }, ' (' + ikinciB[0][1] + ').');
+      ekle('bolge', p20);
+    }
+
+    // 21. Göz + dermatoloji payı
+    var asistanSatir = SATIR.filter(function (r) { return brans_(r[3]); });
+    var gd = asistanSatir.filter(function (r) { return /goz|deri ve zuhrevi|dermatoloji/.test(sade(r[3])); }).length;
+    var oranK = gd ? Math.round(asistanSatir.length / gd) : 0;
+    if (gd >= 3 && oranK >= 2 && oranK <= 10)
+      ekle('gozDeri', ['Her ', { b: oranK + ' asistandan 1’i' }, ' göz ya da dermatolojide (' + asistanSatir.length +
+        ' asistanın ' + gd + '’' + sayiEki(gd) + ').']);
+
+    // 22. Asistanlar İstanbul'da, pratisyenler dağılmış
+    var pratisyen = SATIR.filter(function (r) { return /pratisyen/.test(sade(r[3])); });
+    if (asistanSatir.length >= 10 && pratisyen.length >= 10) {
+      var aIst = Math.round(100 * asistanSatir.filter(function (r) { return r[1] === 'İstanbul'; }).length / asistanSatir.length);
+      var pDis = Math.round(100 * pratisyen.filter(function (r) { return r[1] && r[1] !== 'İstanbul'; }).length / pratisyen.length);
+      ekle('asistanPratisyen', ['Asistanların ', { b: '%' + aIst + '’' + sayiEki(aIst) }, ' İstanbul’da, pratisyenlerin ise ',
+        { b: pDis === 50 ? 'yarısı' : '%' + pDis + '’' + sayiEki(pDis) }, ' İstanbul dışında.']);
+    }
+
+    // 23. Kurum türleri
+    var turler = sayim(0, SATIR.map(function (r) { return [kurumTuru(r[2])]; }));
+    var ilkT = enUstler(turler);
+    if (turler.length >= 3 && ilkT.length === 1) {
+      var p23 = ['En çok mezun ', { b: KURUM_TURU[ilkT[0][0]][0] }, ' (' + ilkT[0][1] + ').'];
+      var izT = turler.slice(1, 3).map(function (s) { return KURUM_TURU[s[0]][1] + ' (' + s[1] + ')'; });
+      p23.push(' Onları ' + veVirgul(izT) + ' izliyor.');
+      ekle('kurumTuru', p23);
+    }
+
+    // 24. Branş çeşitliliği
+    if (asistan.length >= 5)
+      ekle('bransSayisi', ['Asistanlar ', { b: asistan.length + ' farklı branşa' }, ' dağıldı.']);
+
+    // 25. Cerrahpaşa ve kardeşi Çapa
+    var capa = SATIR.filter(function (r) {
+      var k = sade(r[2]);
+      return /istanbul universitesi.*tip|istanbul tip|\bcapa\b/.test(k) && !/cerrahpasa/.test(k);
+    }).length;
+    if (ncp && capa)
+      ekle('capa', ['Cerrahpaşa’da ', { b: String(ncp) }, ', kardeşi Çapa’da ', { b: String(capa) }, ' mezunumuz var.']);
+    return B;
+  }
+
+  // Haritadaki il etiket noktaları arası uzaklık; 1 birim ≈ 1,55 km (gerçek il merkezleriyle karşılaştırılıp ayarlandı, ±%10)
+  function haritaKm(il) {
+    var a = IL_HARITA['İstanbul'], b = IL_HARITA[il];
+    return Math.hypot(a[1] - b[1], a[2] - b[2]) * 1.55;
+  }
+  // Yurt dışı yerlerin koordinatları [enlem, boylam] (sade() ile yazılmış ad). Yeni bir yurt dışı yer gelince buraya eklenir;
+  // eklenmezse "uzaklıkların toplamı" bilgisi gizlenir.
+  var ISTANBUL_KONUM = [41.01, 28.98];
+  var YURT_DISI_KONUM = {
+    'rochester': [44.02, -92.47]  // Rochester, Minnesota (Mayo Clinic)
+  };
+  function kusUcusu(a, b) {
+    var r = Math.PI / 180, de = (b[0] - a[0]) * r, db = (b[1] - a[1]) * r;
+    var h = Math.pow(Math.sin(de / 2), 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.pow(Math.sin(db / 2), 2);
+    return 2 * 6371 * Math.asin(Math.sqrt(h));
+  }
+  function kmYaz(km, adim) { return (Math.round(km / adim) * adim).toLocaleString('tr-TR'); }
+  var ANADOLU_YAKASI = ['Adalar', 'Ataşehir', 'Beykoz', 'Çekmeköy', 'Kadıköy', 'Kartal', 'Maltepe', 'Pendik', 'Sancaktepe',
+    'Sultanbeyli', 'Şile', 'Tuzla', 'Ümraniye', 'Üsküdar'];
+  var BOLGE_IL = {};
+  [['Marmara', 'Balıkesir Bilecik Bursa Çanakkale Edirne İstanbul Kırklareli Kocaeli Sakarya Tekirdağ Yalova'],
+   ['Ege', 'Afyonkarahisar Aydın Denizli İzmir Kütahya Manisa Muğla Uşak'],
+   ['Akdeniz', 'Adana Antalya Burdur Hatay Isparta Kahramanmaraş Mersin Osmaniye'],
+   ['İç Anadolu', 'Aksaray Ankara Çankırı Eskişehir Karaman Kayseri Kırıkkale Kırşehir Konya Nevşehir Niğde Sivas Yozgat'],
+   ['Karadeniz', 'Amasya Artvin Bartın Bayburt Bolu Çorum Düzce Giresun Gümüşhane Karabük Kastamonu Ordu Rize Samsun ' +
+     'Sinop Tokat Trabzon Zonguldak'],
+   ['Doğu Anadolu', 'Ağrı Ardahan Bingöl Bitlis Elazığ Erzincan Erzurum Hakkari Iğdır Kars Malatya Muş Tunceli Van'],
+   ['Güneydoğu Anadolu', 'Adıyaman Batman Diyarbakır Gaziantep Kilis Mardin Siirt Şanlıurfa Şırnak']
+  ].forEach(function (b) { b[1].split(' ').forEach(function (il) { BOLGE_IL[il] = b[0]; }); });
+  // Kurum türü: [en çok olduğunda, izleyen olduğunda]
+  var KURUM_TURU = {
+    eah: ['eğitim ve araştırma hastanelerinde', 'eğitim ve araştırma hastaneleri'],
+    sehir: ['şehir hastanelerinde', 'şehir hastaneleri'],
+    uni: ['üniversite hastanelerinde', 'üniversite hastaneleri'],
+    dh: ['devlet hastanelerinde', 'devlet hastaneleri']
+  };
+  function kurumTuru(k) {
+    k = sade(k || '');
+    if (/sehir hastanesi/.test(k)) return 'sehir';
+    if (/egitim ve arastirma/.test(k)) return 'eah';
+    if (/universite|tip fakultesi/.test(k)) return 'uni';
+    if (/devlet hastanesi/.test(k)) return 'dh';
+    return '';
+  }
+
+  // Karıştırılmış sıra ve konum, veri yenilenip ana sayfa yeniden çizilince korunur
+  var bilgiSira = null, bilgiNo = 0;
+  function bilgiKarti() {
+    var B = bilgiler();
+    if (B.length < 4) return null;
+    var idler = B.map(function (x) { return x.id; }), simdiki = bilgiSira && bilgiSira[bilgiNo];
+    if (!bilgiSira || bilgiSira.length !== idler.length ||
+        idler.some(function (id) { return bilgiSira.indexOf(id) < 0; })) {
+      bilgiSira = idler.slice();
+      for (var i = bilgiSira.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1)), t = bilgiSira[i];
+        bilgiSira[i] = bilgiSira[j]; bilgiSira[j] = t;
+      }
+      // Bir önceki açılışta en son görülen bilgiyle başlama
+      if (bilgiSira[0] === depo.al('bilgi')) bilgiSira.push(bilgiSira.shift());
+      bilgiNo = Math.max(0, bilgiSira.indexOf(simdiki));
+    }
+    var bul = {};
+    B.forEach(function (x) { bul[x.id] = x; });
+
+    var kt = yap('section', 'kutu merak bolum');
+    var ust = yap('div', 'bilgi-ust');
+    ust.appendChild(yap('b', null, '💡 Biliyor muydun?'));
+    ust.appendChild(dugme('bag', 'Başka bir bilgi ↻', function () { goster(bilgiNo + 1); }));
+    kt.appendChild(ust);
+    var metin = yap('p', 'bilgi-metin');
+    metin.setAttribute('aria-live', 'polite');
+    kt.appendChild(metin);
+
+    function goster(n) {
+      bilgiNo = (n + bilgiSira.length) % bilgiSira.length;
+      var x = bul[bilgiSira[bilgiNo]];
+      depo.koy('bilgi', x.id);
+      metin.textContent = '';
+      x.p.forEach(function (s) { metin.appendChild(typeof s === 'string' ? document.createTextNode(s) : yap('b', null, s.b)); });
+    }
+    // Yana kaydırınca da sıradaki / önceki bilgi
+    var x0 = null, y0 = null;
+    metin.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    metin.addEventListener('touchend', function (e) {
+      if (x0 == null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > 2 * Math.abs(dy)) { e.preventDefault(); goster(bilgiNo + (dx < 0 ? 1 : -1)); }
+    });
+    goster(bilgiNo);
+    return kt;
+  }
+
   function ozetCiz() {
     var o = $('gOzet');
     o.textContent = '';
@@ -442,7 +926,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
       var oran = Math.min(100, Math.round(100 * SATIR.length / DONEM));
       var kt = yap('section', 'kutu katilim bolum');
       var ks = yap('div', 'katilim-ust');
-      ks.appendChild(yap('b', null, 'Dönemin %' + oran + '’i burada'));
+      ks.appendChild(yap('b', null, 'Dönemin %' + oran + '’' + sayiEki(oran) + ' burada'));
       ks.appendChild(yap('span', null, SATIR.length + ' / ' + DONEM + ' mezun'));
       kt.appendChild(ks);
       var cb = yap('div', 'katilim-cubuk'), dl = yap('span');
@@ -458,10 +942,8 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
       o.appendChild(kt);
     }
 
-    // Yakınındakiler: şehir seçimi kartın içinde
-    var bs = bolum('Yakınındakiler', 'sehir');
-    bs.appendChild(sehrimKutusu());
-    o.appendChild(bs);
+    var bk = bilgiKarti();
+    if (bk) o.appendChild(bk);
 
     // Alanlara göre dağılım (cerrahi / dahili / temel tıp / pratisyen)
     var t = {}, top = 0;
@@ -488,9 +970,15 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     o.appendChild(b);
 
     // Harita
-    b = bolum('Türkiye haritası', 'harita');
+    b = bolum('Türkiye haritası', 'harita', buyukHarita('tr'));
     b.appendChild(haritaKutusu());
     o.appendChild(b);
+    if (typeof ILCE_HARITA !== 'undefined' && istanbulSayilari().toplam) {
+      b = bolum('İstanbul haritası', 'harita', buyukHarita('ist'));
+      b.id = 'istanbulHarita';
+      b.appendChild(istanbulKutusu());
+      o.appendChild(b);
+    }
 
     // En kalabalıklar; "Tüm …" kategori sayfasını açar (kişileri değil)
     [['sehir', 'Şehirler', 5], ['brans', 'Branşlar', 5],
@@ -563,169 +1051,324 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     o.appendChild(yap('p', 'not', 'Birine dokun: oradaki mezunlar listelenir.'));
   }
 
-  // ---------------------------------------------------------------- Yakınındakiler (şehrim)
-  var sehrimDegistir = false;
-  function tumSehirler() {  // [[şehir, kişi sayısı], …] — listedekiler önce, sonra diğer iller
-    var var_ = {};
-    sayim(1, SATIR).forEach(function (s) { var_[s[0]] = s[1]; });
-    Object.keys(IL_HARITA).forEach(function (il) { if (!(il in var_)) var_[il] = 0; });
-    return Object.keys(var_).map(function (k) { return [k, var_[k]]; })
-      .sort(function (a, b) { return b[1] - a[1] || sirala(a[0], b[0]); });
-  }
-  function sehrimSec(v) {
-    depo.koy('sehrim', v);
-    sehrimDegistir = false;
-    sehrimYenile();
-    if (v) bildir('Şehrin kaydedildi: ' + v + ' (sadece bu cihazda)');
-  }
-
-  function sehrimKutusu() {
-    var k = yap('div', 'kutu sehrim'), sehrim = depo.al('sehrim');
-    k.id = 'sehrimKutu';
-    if (sehrim && !sehrimDegistir) {
-      var kisiler = SATIR.filter(function (x) { return x[1] === sehrim; });
-      var ust = yap('div', 'sehrim-ust');
-      var r = yap('div', 'rozet-buyuk'); r.appendChild(ikon('sehir'));
-      ust.appendChild(r);
-      var m = yap('div', 'metin');
-      m.appendChild(yap('b', null, sehrim));
-      m.appendChild(yap('span', null, kisiler.length ? kisiler.length + ' mezun bu şehirde' : 'Bu şehirde henüz kimse yok'));
-      ust.appendChild(m);
-      ust.appendChild(dugme('bag', 'Değiştir', function () { sehrimDegistir = true; sehrimYenile(); }));
-      k.appendChild(ust);
-      if (kisiler.length) {
-        var on = yap('div', 'onizleme');
-        kisiler.slice(0, 3).forEach(function (x) {
-          var s = yap('div', 'mini');
-          s.appendChild(yap('span', 'bas', basHarf(x[0])));
-          var t = yap('span', 'mini-metin');
-          t.appendChild(yap('b', null, x[0]));
-          t.appendChild(yap('small', null, [x[2], x[3]].filter(Boolean).join(' · ')));
-          s.appendChild(t);
-          on.appendChild(s);
-        });
-        k.appendChild(on);
-        var g = dugme('dugme genis', null, function () { listeyeGit({ sehir: sehrim, grup: 'kurum' }); });
-        g.appendChild(document.createTextNode(kisiler.length > 3 ? 'Hepsini gör (' + kisiler.length + ')' : 'Listede gör'));
-        g.appendChild(ikon('ileri'));
-        k.appendChild(g);
-      }
-      return k;
-    }
-
-    // Seçim: kartın içinde yazarak ya da sık şehirlerden dokunarak
-    k.appendChild(yap('b', 'sehrim-baslik', sehrim ? 'Şehrini değiştir' : 'Hangi şehirdesin?'));
-    k.appendChild(yap('p', 'not', 'Seçince aynı şehirdeki mezunlar burada görünür. Seçimin sadece bu cihazda saklanır.'));
-    var ar = yap('div', 'arama');
-    ar.appendChild(ikon('ara'));
-    var inp = yap('input');
-    inp.type = 'search'; inp.autocomplete = 'off'; inp.placeholder = 'Şehrini yaz (ör. İzmir)';
-    inp.setAttribute('aria-label', 'Şehrini yaz');
-    ar.appendChild(inp);
-    k.appendChild(ar);
-    var oneriler = yap('div', 'oneriler');
-    k.appendChild(oneriler);
-    var hepsi = tumSehirler();
-    function doldur() {
-      var q = sade(inp.value.trim());
-      oneriler.textContent = '';
-      var uy = q ? hepsi.filter(function (s) { return sade(s[0]).indexOf(q) === 0; })
-                     .concat(hepsi.filter(function (s) { var i = sade(s[0]).indexOf(q); return i > 0; }))
-                 : hepsi.slice(0, 6);
-      uy.slice(0, q ? 6 : 6).forEach(function (s) {
-        var c = dugme('cip', null, function () { sehrimSec(s[0]); });
-        c.appendChild(yap('span', null, s[0]));
-        if (s[1]) c.appendChild(yap('small', 'cip-n', s[1]));
-        oneriler.appendChild(c);
-      });
-      if (q && !uy.length) oneriler.appendChild(yap('span', 'not', 'Bu adla şehir bulunamadı.'));
-    }
-    inp.addEventListener('input', doldur);
-    inp.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') { var ilk = oneriler.querySelector('button'); if (ilk) ilk.click(); }
-    });
-    doldur();
-    if (sehrim) {
-      var alt = yap('div', 'sehrim-alt');
-      alt.appendChild(dugme('bag', 'Vazgeç', function () { sehrimDegistir = false; sehrimYenile(); }));
-      alt.appendChild(dugme('bag soluk', 'Şehrimi unut', function () { sehrimSec(''); }));
-      k.appendChild(alt);
-    }
-    return k;
-  }
-  function sehrimYenile() {
-    var eski = $('sehrimKutu');
-    if (eski) eski.parentNode.replaceChild(sehrimKutusu(), eski);
-  }
   function basHarf(ad) {
     var p = ad.split(' ').filter(function (w) { return /^\p{L}/u.test(w); });  // sayı/simge kelimeleri atla
     return ((p[0] || '').charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : '')).toLocaleUpperCase('tr');
   }
 
   // ---------------------------------------------------------------- Harita
-  function haritaKutusu() {
-    var kap = yap('div', 'kutu harita');
+  /** Sınırlı harita: bolgeler[ad] = [SVG yolu, etiket x, etiket y]; sayi[ad] = kişi; dolu bölgeye dokununca tikla(ad).
+   *  { svg, lejant } döner. Ton logaritmik: bir bölge çok baskın olsa da 2–10 kişilik bölgeler de ayırt edilsin. */
+  function sinirHaritasi(kutu, bolgeler, sayi, etiketAdi, tikla, sik, secili) {
     var NS = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 ' + HARITA_KUTU[0] + ' ' + HARITA_KUTU[1]);
+    var vb = [0, 0, kutu[0], kutu[1]];
+    svg.setAttribute('viewBox', vb.join(' '));
+    var yaziBoyu = sik ? 34 : 30;
     svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-label', 'Mezunların illere göre dağılımı');
-
-    var ilAdi = {};
-    Object.keys(IL_HARITA).forEach(function (il) { ilAdi[sade(il)] = il; });
-    var sayi = {}, veriAdi = {}, disari = [];
-    sayim(1, SATIR).forEach(function (s) {
-      var il = ilAdi[sade(s[0])];
-      if (il) { sayi[il] = s[1]; veriAdi[il] = s[0]; } else disari.push(s);
-    });
+    svg.setAttribute('aria-label', etiketAdi);
     var en = 1;
-    Object.keys(sayi).forEach(function (il) { en = Math.max(en, sayi[il]); });
-    // Logaritmik ton: İstanbul çok baskın olsa da 2–10 kişilik iller de ayırt edilsin
+    Object.keys(sayi).forEach(function (b) { en = Math.max(en, sayi[b]); });
     function ton(n) { return n ? 0.28 + 0.72 * Math.log(n) / Math.log(Math.max(2, en)) : 0; }
 
     var etiketler = [];
-    Object.keys(IL_HARITA).forEach(function (il) {
-      var v = IL_HARITA[il], n = sayi[il] || 0;
+    Object.keys(bolgeler).forEach(function (ad) {
+      var v = bolgeler[ad], n = sayi[ad] || 0;
       var p = document.createElementNS(NS, 'path');
       p.setAttribute('d', v[0]);
-      p.setAttribute('class', n ? 'il dolu' : 'il');
+      p.setAttribute('class', (n ? 'il dolu' : 'il') + (ad === secili ? ' secili' : ''));
       if (n) p.style.fillOpacity = ton(n).toFixed(2);
       var t = document.createElementNS(NS, 'title');
-      t.textContent = il + ': ' + (n ? n + ' mezun' : 'henüz kimse yok');
+      t.textContent = ad + ': ' + (n ? n + ' mezun' : 'henüz kimse yok');
       p.appendChild(t);
-      if (n) p.addEventListener('click', function () { listeyeGit({ sehir: veriAdi[il], grup: 'kurum' }); });
+      if (n) {
+        p.addEventListener('click', function () { tikla(ad); });
+        // Klavyeyle de seçilebilsin (Tab ile gez, Enter/boşluk ile seç)
+        p.setAttribute('tabindex', '0');
+        p.setAttribute('role', 'button');
+        p.setAttribute('aria-label', t.textContent);
+        p.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tikla(ad); }
+        });
+      }
       svg.appendChild(p);
-      if (n) etiketler.push([n, v[1], v[2], il]);
+      if (n) etiketler.push([n, v[1], v[2], ad]);
     });
-    // Sayılar il merkezinde; kalabalıklar en üstte
+    // Seçili bölgenin çerçevesi komşuların altında kalmasın
+    var sp = svg.querySelector('.secili');
+    if (sp) svg.appendChild(sp);
+    // Küçük bölgelerin sık olduğu haritada (İstanbul) sayılar üst üste binmesin: kalabalıktan aza yerleştir, çakışanı atla
+    if (sik) {
+      var konan = [];
+      // seçili bölgenin sayısı her zaman görünsün: önce o yerleşir
+      etiketler = etiketler.sort(function (a, b) { return (b[3] === secili) - (a[3] === secili) || b[0] - a[0]; }).filter(function (e) {
+        var g = (String(e[0]).length * 0.62 + 0.3) * yaziBoyu, y = yaziBoyu * 1.05;
+        var cakisir = konan.some(function (k) { return Math.abs(k[1] - e[1]) * 2 < g + k[3] && Math.abs(k[2] - e[2]) * 2 < y + k[4]; });
+        if (!cakisir) konan.push([e[0], e[1], e[2], g, y]);
+        return !cakisir;
+      });
+    }
+    // Sayılar bölge merkezinde; kalabalıklar en üstte
     etiketler.sort(function (a, b) { return a[0] - b[0]; }).forEach(function (e) {
       var tx = document.createElementNS(NS, 'text');
       tx.setAttribute('class', 'il-sayi' + (ton(e[0]) > 0.6 ? ' koyu' : ''));
       tx.setAttribute('x', e[1]); tx.setAttribute('y', e[2]);
+      if (sik) tx.style.fontSize = yaziBoyu + 'px';
       tx.textContent = e[0];
       svg.appendChild(tx);
     });
-    kap.appendChild(svg);
-
     var lej = yap('div', 'lejant');
     lej.appendChild(yap('span', null, '1'));
     lej.appendChild(yap('i'));
     lej.appendChild(yap('span', null, en + ' mezun'));
-    kap.appendChild(lej);
+    return { svg: svg, lejant: lej };
+  }
 
-    if (disari.length) {
+  function buyukHarita(mod) {
+    var b = dugme('bag', null, function () { haritayaGit({ mod: mod }); });
+    b.appendChild(document.createTextNode('Büyük harita'));
+    b.appendChild(ikon('ileri'));
+    return b;
+  }
+
+  function haritaKutusu() {
+    var kap = yap('div', 'kutu harita');
+    var il = ilSayilari(), sayi = il.sayi, veriAdi = il.veriAdi, disari = il.disari, ist = istanbulVar();
+    var h = sinirHaritasi(HARITA_KUTU, IL_HARITA, sayi, 'Mezunların illere göre dağılımı', function (k) {
+      if (k === 'İstanbul' && ist) haritayaGit({ mod: 'ist' });
+      else haritayaGit({ mod: 'tr', sec: veriAdi[k] });
+    });
+    kap.appendChild(h.svg);
+    kap.appendChild(h.lejant);
+
+    if (disari.length) kap.appendChild(yurtDisiCipi(disari, function () { haritayaGit({ mod: 'tr', sec: YURT_DISI }); }));
+    kap.appendChild(yap('p', 'not', 'Bir ile dokun: harita sayfası açılır, haritada gezinirken mezunlar altta listelenir.' +
+      (ist ? ' İstanbul\'a dokununca ilçeler açılır.' : '')));
+    return kap;
+  }
+
+  /** { toplam, bilinmeyen, ilce: {ilçe: kişi} } — İstanbul'daki kişilerin ilçelere dağılımı */
+  function istanbulSayilari() {
+    var o = { toplam: 0, bilinmeyen: 0, ilce: {} };
+    SATIR.forEach(function (r) {
+      if (r[1] !== 'İstanbul') return;
+      o.toplam++;
+      if (r[5]) o.ilce[r[5]] = (o.ilce[r[5]] || 0) + 1; else o.bilinmeyen++;
+    });
+    return o;
+  }
+
+  function istanbulKutusu() {
+    var kap = yap('div', 'kutu harita istanbul');
+    var s = istanbulSayilari();
+    function git(ilce) { haritayaGit({ mod: 'ist', sec: ilce }); }
+    var h = sinirHaritasi(ILCE_KUTU, ILCE_HARITA, s.ilce, 'İstanbul\'daki mezunların ilçelere göre dağılımı', git, true);
+    kap.appendChild(h.svg);
+    kap.appendChild(h.lejant);
+    // Sadece en kalabalık 3 ilçe (ana sayfa sade kalsın; gerisi harita sayfasında)
+    if (Object.keys(s.ilce).length) {
       var d = yap('div', 'disari');
-      d.appendChild(yap('span', 'disari-baslik', 'Yurt dışı'));
-      disari.forEach(function (s) {
-        var c = dugme('cip', null, function () { listeyeGit({ sehir: s[0] }); });
-        c.appendChild(ikon('sehir'));
+      d.appendChild(yap('span', 'disari-baslik', 'En kalabalık'));
+      Object.keys(s.ilce).map(function (k) { return [k, s.ilce[k]]; })
+        .sort(function (a, b) { return b[1] - a[1] || sirala(a[0], b[0]); }).slice(0, 3)
+        .forEach(function (x) {
+          var c = dugme('cip', null, function () { git(x[0]); });
+          c.appendChild(yap('span', null, x[0] + ' · ' + x[1]));
+          d.appendChild(c);
+        });
+      kap.appendChild(d);
+    }
+    kap.appendChild(yap('p', 'not', 'Bir ilçeye dokun: harita sayfası açılır, başka ilçeye dokundukça altta o ilçenin ' +
+      'mezunları listelenir.'));
+    return kap;
+  }
+
+  // ---------------------------------------------------------------- Harita sayfası
+  // Üstte sabit harita (Türkiye | İstanbul), altta seçilen il/ilçenin mezunları. Bölgeye dokunmak sayfa değiştirmez,
+  // sadece alttaki listeyi yeniler (geçmişe yeni adım eklemez: geri tuşu önceki sayfaya döner).
+  var harita = { mod: 'tr', sec: '' };
+  function haritayaGit(h) { git({ g: 'harita', h: { mod: h.mod || 'tr', sec: h.sec || '' } }); }
+  function istanbulVar() { return typeof ILCE_HARITA !== 'undefined' && istanbulSayilari().toplam > 0; }
+
+  // Haritada olmayan yerler (yurt dışı) tek tek değil, toplu gösterilir
+  var YURT_DISI = 'Yurt Dışı';
+  function yurtDisiCipi(disari, tikla) {
+    var n = 0;
+    disari.forEach(function (s) { n += s[1]; });
+    var d = yap('div', 'disari');
+    var c = dugme('cip', null, tikla);
+    c.appendChild(ikon('sehir'));
+    c.appendChild(yap('span', null, YURT_DISI + ' · ' + n));
+    d.appendChild(c);
+    return d;
+  }
+
+  /** { sayi: {il: kişi}, veriAdi: {il: listedeki yazılış}, disari: [[şehir, kişi], …] } — haritada olmayanlar yurt dışı */
+  function ilSayilari() {
+    var ilAdi = {}, o = { sayi: {}, veriAdi: {}, disari: [] };
+    Object.keys(IL_HARITA).forEach(function (il) { ilAdi[sade(il)] = il; });
+    sayim(1, SATIR).forEach(function (s) {
+      var il = ilAdi[sade(s[0])];
+      if (il) { o.sayi[il] = s[1]; o.veriAdi[il] = s[0]; } else o.disari.push(s);
+    });
+    return o;
+  }
+
+  function haritaSayfasiCiz() {
+    var ist = istanbulVar();
+    if (!ist) harita.mod = 'tr';
+    var ust = $('hUstIc');
+    ust.textContent = '';
+    if (ist) {
+      var sec = yap('div', 'secim harita-sec');
+      sec.setAttribute('role', 'group');
+      sec.setAttribute('aria-label', 'Harita');
+      [['tr', 'Türkiye'], ['ist', 'İstanbul ilçeleri']].forEach(function (x) {
+        var b = dugme(harita.mod === x[0] ? 'secili' : null, x[1], function () {
+          if (harita.mod === x[0]) return;
+          harita = { mod: x[0], sec: '' };
+          haritaYenile();
+        });
+        b.setAttribute('aria-pressed', String(harita.mod === x[0]));
+        sec.appendChild(b);
+      });
+      ust.appendChild(sec);
+    }
+    var kutu = yap('div', 'kutu harita' + (harita.mod === 'ist' ? ' istanbul' : ''));
+    var h;
+    if (harita.mod === 'ist') {
+      var s = istanbulSayilari();
+      h = sinirHaritasi(ILCE_KUTU, ILCE_HARITA, s.ilce, 'İstanbul\'daki mezunların ilçelere göre dağılımı', function (ilce) {
+        harita.sec = harita.sec === ilce ? '' : ilce;  // aynı ilçeye tekrar dokununca seçim kalkar
+        haritaYenile();
+      }, true, harita.sec);
+    } else {
+      var il = ilSayilari(), seciliIl = '';
+      Object.keys(il.veriAdi).forEach(function (k) { if (il.veriAdi[k] === harita.sec) seciliIl = k; });
+      h = sinirHaritasi(HARITA_KUTU, IL_HARITA, il.sayi, 'Mezunların illere göre dağılımı', function (k) {
+        if (k === 'İstanbul' && ist) harita = { mod: 'ist', sec: '' };
+        else harita.sec = harita.sec === il.veriAdi[k] ? '' : il.veriAdi[k];
+        haritaYenile();
+      }, false, seciliIl);
+    }
+    kutu.appendChild(h.svg);
+    ust.appendChild(kutu);
+    haritaListesiCiz();
+  }
+
+  function haritaYenile() {
+    gecmisDegistir(simdiki());
+    haritaSayfasiCiz();
+    ustYaz();
+    window.scrollTo(0, 0);
+  }
+
+  function haritaListesiCiz() {
+    var o = $('hSonuc'), ist = harita.mod === 'ist';
+    o.textContent = '';
+    hKuyruk = []; hKartlar = null;
+    var satirlar, baslik, grupla, listeAyar;
+    if (ist) {
+      satirlar = SATIR.filter(function (r) { return r[1] === 'İstanbul' && (!harita.sec || r[5] === harita.sec); });
+      baslik = harita.sec ? harita.sec + ', İstanbul' : 'İstanbul';
+      grupla = harita.sec ? 2 : 5;
+      listeAyar = { sehir: 'İstanbul', ilce: harita.sec, grup: harita.sec ? 'kurum' : 'ilce' };
+    } else if (harita.sec === YURT_DISI) {
+      var yd = {};
+      ilSayilari().disari.forEach(function (s) { yd[s[0]] = true; });
+      satirlar = SATIR.filter(function (r) { return yd[r[1]]; });
+      baslik = YURT_DISI;
+      grupla = 2;
+      listeAyar = null;  // tek bir şehir filtresi yok; kartta şehir yazar
+    } else if (harita.sec) {
+      satirlar = SATIR.filter(function (r) { return r[1] === harita.sec; });
+      baslik = harita.sec;
+      grupla = 2;
+      listeAyar = { sehir: harita.sec, grup: 'kurum' };
+    } else {
+      // Seçim yok: ipucu + en kalabalık iller ve yurt dışı (haritada küçük kalanlara da dokunulabilsin)
+      var k = yap('section', 'kutu');
+      k.appendChild(yap('p', 'not ilk', 'Haritada bir ile dokun: oradaki mezunlar burada listelenir.' +
+        (istanbulVar() ? ' İstanbul\'a dokununca ilçeler açılır.' : '')));
+      var d = yap('div', 'disari');
+      var il = ilSayilari(), haritada = {};
+      Object.keys(il.veriAdi).forEach(function (k) { haritada[il.veriAdi[k]] = true; });
+      var enCok = sayim(1, SATIR).filter(function (s) { return haritada[s[0]]; }).slice(0, 3);  // sade kalsın: ilk 3 il
+      if (enCok.length) d.appendChild(yap('span', 'disari-baslik', 'En kalabalık'));
+      enCok.forEach(function (s) {
+        var c = dugme('cip', null, function () {
+          if (s[0] === 'İstanbul' && istanbulVar()) harita = { mod: 'ist', sec: '' };
+          else harita.sec = s[0];
+          haritaYenile();
+        });
         c.appendChild(yap('span', null, s[0] + ' · ' + s[1]));
         d.appendChild(c);
       });
-      kap.appendChild(d);
+      k.appendChild(d);
+      if (il.disari.length) k.appendChild(yurtDisiCipi(il.disari, function () { harita.sec = YURT_DISI; haritaYenile(); }));
+      o.appendChild(k);
+      return;
     }
-    kap.appendChild(yap('p', 'not', 'Bir ile dokun: oradaki mezunlar hastanelerine göre listelenir.'));
-    return kap;
+
+    // Özet kartı: kaç mezun, kaç kurum/branş, listede aç
+    var oz = yap('section', 'kutu filtre-ozet');
+    var u = yap('div', 'fo-ust');
+    var r = yap('div', 'rozet-buyuk'); r.appendChild(ikon('sehir'));
+    u.appendChild(r);
+    var m = yap('div', 'metin');
+    m.appendChild(yap('b', null, baslik));
+    m.appendChild(yap('span', null, [satirlar.length + ' mezun', sayim(2, satirlar).length + ' kurum',
+      sayim(3, satirlar).length + ' branş'].join(' · ')));
+    u.appendChild(m);
+    oz.appendChild(u);
+    if (listeAyar) {
+      var ac = dugme('cip', null, function () { listeyeGit(listeAyar); });
+      ac.appendChild(yap('span', null, 'Mezunlar listesinde aç'));
+      ac.appendChild(ikon('ileri'));
+      var aSat = yap('div', 'oneriler'); aSat.appendChild(ac);
+      oz.appendChild(aSat);
+    }
+    o.appendChild(oz);
+
+    // Kişiler, grup başlıklarıyla (kalabalık grup önce); kartta grupta ve başlıkta yazan sütunlar gizlenir
+    gizliSutun = { sehir: harita.sec !== YURT_DISI, kurum: grupla === 2 };
+    kelimeK = [];
+    var gruplar = {};
+    satirlar.forEach(function (x) {
+      var g = x[grupla] || (grupla === 5 ? 'İlçesi bilinmeyen' : '(belirtilmemiş)');
+      (gruplar[g] = gruplar[g] || []).push(x);
+    });
+    // Kartlar Mezunlar listesi gibi parça parça çizilir (kalabalık seçimde sayfa takılmasın)
+    hKuyruk = [];
+    Object.keys(gruplar).sort(function (a, b) { return gruplar[b].length - gruplar[a].length || sirala(a, b); })
+      .forEach(function (g) {
+        hKuyruk.push({ baslik: g, n: gruplar[g].length });
+        gruplar[g].forEach(function (x) { hKuyruk.push(x); });
+      });
+    hCizilen = 0;
+    hKartlar = yap('div');
+    o.appendChild(hKartlar);
+    haritaKartEkle(ILK);
+    setTimeout(haritaGerekirseDaha, 0);
+  }
+
+  var hKuyruk = [], hCizilen = 0, hKartlar = null;
+  function haritaKartEkle(adet) {
+    var parca = document.createDocumentFragment(), son = Math.min(hKuyruk.length, hCizilen + adet);
+    for (; hCizilen < son; hCizilen++) {
+      var x = hKuyruk[hCizilen];
+      if (x.baslik != null) {
+        var hb = yap('h3', 'grup');
+        hb.appendChild(yap('span', null, x.baslik));
+        hb.appendChild(yap('span', null, x.n + ' kişi'));
+        parca.appendChild(hb);
+      } else parca.appendChild(kart(x));
+    }
+    hKartlar.appendChild(parca);
+  }
+  function haritaGerekirseDaha() {
+    while (gorunum === 'harita' && hKartlar && hCizilen < hKuyruk.length &&
+           hKartlar.getBoundingClientRect().bottom < window.innerHeight + 800) haritaKartEkle(EK);
   }
 
   // ---------------------------------------------------------------- Liste
@@ -750,7 +1393,9 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   function ciplerCiz() {
     var c = $('cipler');
     c.textContent = '';
-    ['sehir', 'alan', 'brans', 'kurum'].forEach(function (ad) {
+    var cipAdlari = ['sehir', 'alan', 'brans', 'kurum'];
+    if (durum.ilce || durum.sehir === 'İstanbul') cipAdlari.splice(1, 0, 'ilce');  // ilçe sadece İstanbul'da anlamlı
+    cipAdlari.forEach(function (ad) {
       var b = dugme('cip' + (durum[ad] ? ' secili' : ''), null, function () { secimPenceresi(ad); });
       b.setAttribute('aria-label', AD[ad] + (durum[ad] ? ': ' + durum[ad] + ' (değiştir)' : ' seç'));
       b.appendChild(yap('span', null, durum[ad] || AD[ad]));
@@ -764,7 +1409,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     c.appendChild(g);
     if (filtreVar() || durum.grup) {
       c.appendChild(dugme('cip', 'Temizle', function () {
-        durum.sehir = durum.brans = durum.kurum = durum.alan = durum.ara = durum.grup = '';
+        durum.sehir = durum.brans = durum.kurum = durum.alan = durum.ilce = durum.ara = durum.grup = '';
         $('ara').value = '';
         listeCiz();
       }));
@@ -785,7 +1430,10 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     var alt = yap('div', 'alt');
     [[3, 'brans', kisaBrans], [2, 'kurum', kisaKurum], [1, 'sehir', String]].forEach(function (x) {
       if (!r[x[0]] || gizliSutun[x[1]]) return;
-      var bt = dugme(null, null, function () { durum[x[1]] = r[x[0]]; listeCiz(true); });
+      var bt = dugme(null, null, function () {
+        if (gorunum !== 'liste') { var a = { grup: x[1] === 'kurum' ? 'brans' : 'kurum' }; a[x[1]] = r[x[0]]; listeyeGit(a); return; }
+        durum[x[1]] = r[x[0]]; listeCiz(true);
+      });
       bt.title = r[x[0]] + ' (buradakileri göster)';
       alt.appendChild(isaretle(bt, x[2](r[x[0]]), kelimeK));
     });
@@ -797,21 +1445,21 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
 
   // ---- Filtre özeti: tek bir hastane/şehir/branş/alan seçiliyken listenin başında kısa özet
   var OZET_BOYUT = { kurum: ['brans', 'sehir'], sehir: ['kurum', 'brans'], brans: ['sehir', 'kurum'],
-                     alan: ['brans', 'sehir'] };
+                     alan: ['brans', 'sehir'], ilce: ['kurum', 'brans'] };
   var BOYUT_BASLIK = { brans: 'Branşlar', sehir: 'Şehirler', kurum: 'Hastaneler' };
   function filtreOzeti(sonuc) {
-    var ana = ['kurum', 'sehir', 'brans', 'alan'].filter(function (k) { return durum[k]; })[0];
+    var ana = ['kurum', 'ilce', 'sehir', 'brans', 'alan'].filter(function (k) { return durum[k]; })[0];
     if (!ana || !sonuc.length) return null;
     var k = yap('section', 'kutu filtre-ozet');
     var ust = yap('div', 'fo-ust');
     var r = yap('div', 'rozet-buyuk');
-    r.appendChild(ikon({ kurum: 'kurum', sehir: 'sehir', brans: 'brans', alan: 'brans' }[ana]));
+    r.appendChild(ikon({ kurum: 'kurum', ilce: 'sehir', sehir: 'sehir', brans: 'brans', alan: 'brans' }[ana]));
     ust.appendChild(r);
     var m = yap('div', 'metin');
-    m.appendChild(yap('b', null, durum[ana]));
+    m.appendChild(yap('b', null, durum[ana] + (ana === 'ilce' ? ', İstanbul' : '')));
     var parcalar = [sonuc.length + ' mezun'];
     ['brans', 'kurum', 'sehir'].forEach(function (bt) {
-      if (bt === ana || durum[bt]) return;
+      if (bt === ana || durum[bt] || (bt === 'sehir' && ana === 'ilce')) return;
       var n = sayim(SUTUN[bt], sonuc).length;
       if (n) parcalar.push(n + ' ' + { brans: 'branş', kurum: 'kurum', sehir: 'şehir' }[bt]);
     });
@@ -889,7 +1537,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
       if (SATIR.length) {
         bos.appendChild(yap('br'));
         bos.appendChild(dugme('dugme ikincil', 'Filtreleri temizle', function () {
-          durum.sehir = durum.brans = durum.kurum = durum.alan = durum.ara = ''; $('ara').value = ''; listeCiz();
+          durum.sehir = durum.brans = durum.kurum = durum.alan = durum.ilce = durum.ara = ''; $('ara').value = ''; listeCiz();
         }));
       }
       kap.appendChild(bos);
@@ -988,16 +1636,14 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
     var sut = SUTUN[ad], havuz = uyanlar(ad), liste = sayim(sut, havuz);
     if (durum[ad] && !liste.some(function (s) { return s[0] === durum[ad]; })) liste.unshift([durum[ad], 0]);
     var secenekler = [{ deger: '', yazi: 'Tümü', n: havuz.length, secili: !durum[ad] }];
-    var sehrim = depo.al('sehrim');
-    if (ad === 'sehir' && sehrim) {
-      var benim = liste.filter(function (s) { return s[0] === sehrim; })[0];
-      if (benim) secenekler.push({ deger: sehrim, yazi: '📍 ' + sehrim + ' (senin şehrin)', n: benim[1],
-                                   secili: durum.sehir === sehrim });
-    }
     secenekler.push({ ara: 'En çok kişi olandan aza' });
     liste.forEach(function (s) { secenekler.push({ deger: s[0], yazi: s[0], n: s[1], secili: durum[ad] === s[0] }); });
     pencereAc(AD[ad], liste.length > 8);
-    secenekleriCiz(secenekler, function (v) { durum[ad] = v; listeCiz(true); });
+    secenekleriCiz(secenekler, function (v) {
+      durum[ad] = v;
+      if (ad === 'sehir' && v !== 'İstanbul') durum.ilce = '';
+      listeCiz(true);
+    });
   }
 
   function grupPenceresi() {
@@ -1100,7 +1746,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   // ---------------------------------------------------------------- Paylaşma
   function aramaBaglantisi() {
     var p = [];
-    ['sehir', 'alan', 'brans', 'kurum', 'ara', 'grup'].forEach(function (k) {
+    ['sehir', 'ilce', 'alan', 'brans', 'kurum', 'ara', 'grup'].forEach(function (k) {
       if (durum[k]) p.push(k + '=' + encodeURIComponent(durum[k]));
     });
     return SERVIS_URL + (p.length ? '?' + p.join('&') : '');
@@ -1137,6 +1783,7 @@ window.MEZUN_AYAR = {"veriUrl":"https://script.google.com/macros/s/AKfycbzYhnwxo
   $('anaSayfa').addEventListener('click', anaSayfa);
   $('geri').addEventListener('click', geri);
   window.addEventListener('scroll', function () {
+    if (gorunum === 'harita') { haritaGerekirseDaha(); return; }
     if (gorunum !== 'liste') return;
     $('arac').classList.toggle('golgeli', window.scrollY > 70);
     gerekirseDaha();

@@ -25,9 +25,9 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mezun Arama">
-<link rel="preload" href="app.js?v=68891db162" as="script">
+<link rel="preload" href="app.js?v=1d781cb7cd" as="script">
 <link rel="preconnect" href="https://script.google.com" crossorigin>
-<link rel="stylesheet" href="app.css?v=68891db162">
+<link rel="stylesheet" href="app.css?v=1d781cb7cd">
 </head>
 <body>
 <!-- Üst çubuk: her sayfada; logo/başlık ana sayfaya, ok bir önceki sayfaya döner -->
@@ -48,6 +48,12 @@
 
 <!-- Şehirler / Branşlar / Hastaneler listesi -->
 <main id="gKategori" class="ic" aria-label="Kategori" hidden></main>
+
+<!-- Harita: üstte sabit harita, altta seçilen il/ilçenin mezunları -->
+<main id="gHarita" aria-label="Harita" hidden>
+  <div class="harita-ust"><div class="ic" id="hUstIc"></div></div>
+  <div class="ic" id="hSonuc" aria-live="polite"></div>
+</main>
 
 <!-- Mezunlar listesi -->
 <main id="gListe" aria-label="Mezunlar" hidden>
@@ -74,6 +80,7 @@
 
 <footer id="altBilgi">Liste, formu dolduranların paylaştığı ad, şehir, kurum ve branştan oluşur.
   Telefon ve e-posta gösterilmez.</footer>
+<p class="kaynak" id="haritaKaynak">Harita sınırları: HGM / OCHA, CC BY-IGO</p>
 
 <nav class="sekmeler" role="tablist">
   <button type="button" role="tab" id="sOzet" aria-selected="true">
@@ -102,6 +109,6 @@
 <a id="formLink" href="https://forms.gle/QsYGyBopYRCDwUbw8" hidden></a>
 <a id="servisLink" href="https://akifokuyucu.github.io/mezun-arama/" hidden></a>
 
-<script src="app.js?v=68891db162" defer></script>
+<script src="app.js?v=1d781cb7cd" defer></script>
 </body>
 </html>
